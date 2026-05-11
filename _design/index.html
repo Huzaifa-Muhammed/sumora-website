@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sumora Health — Redefining care with intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sage:#A8B7B0;
+    --sage-light:#C2CFC8;
+    --sage-deep:#8AA197;
+    --paper:#FAFAF7;
+    --paper-2:#F4F3EE;
+    --ink:#0E1315;
+    --ink-soft:#3A4147;
+    --muted:#6B7378;
+    --line:rgba(14,19,21,0.10);
+    --line-soft:rgba(14,19,21,0.05);
+    --navy:#1E2A78;
+    --teal:#1EB89A;
+    --teal-glow:#3DDFB0;
+    --lime:#D9F255;
+    --lime-bright:#E5FF6E;
+    --display:'Inter', sans-serif;
+    --serif:'Instrument Serif', serif;
+    --sans:'Inter', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--sage);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.55;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode:multiply;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  /* ============ HERO BACKGROUND ============ */
+  .hero-wrap{
+    background: var(--sage);
+    padding: 60px 60px 40px;
+    position:relative;
+    overflow:hidden;
+    min-height: 100vh;
+  }
+  /* Soft circle architecture in the sage area */
+  .hero-wrap::before, .hero-wrap::after{
+    content:""; position:absolute;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:50%;
+    pointer-events:none;
+  }
+  .hero-wrap::before{
+    width: 1100px; height:1100px;
+    top:-200px; left:50%; transform:translateX(-50%);
+  }
+  .hero-wrap::after{
+    width: 1500px; height:1500px;
+    bottom:-600px; left:50%; transform:translateX(-50%);
+  }
+
+  /* ============ HERO CARD (white inner) ============ */
+  .hero{
+    background: var(--paper);
+    border-radius: 24px;
+    position:relative;
+    overflow:hidden;
+    min-height: calc(100vh - 100px);
+    display:flex; flex-direction:column;
+    box-shadow: 0 30px 80px -30px rgba(14,19,21,0.18);
+  }
+
+  /* TOP BAR */
+  .topbar{
+    padding: 36px 56px;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:center;
+    gap:40px;
+    position:relative; z-index:5;
+  }
+  .brand{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+    display:inline-flex; align-items:flex-start; gap:2px;
+    cursor:pointer;
+    transition: opacity .25s;
+  }
+  .brand:hover{ opacity:0.7;}
+  .brand .reg{
+    font-size:11px; font-weight:500; margin-top:4px; color:var(--ink-soft);
+  }
+  .brand-mark{
+    width:10px; height:10px; background:var(--lime); border-radius:50%;
+    margin: 6px 4px 0 0;
+  }
+
+  .topbar-right{
+    display:flex; justify-content:flex-end; align-items:center;
+  }
+  .menu-btn{
+    width:40px; height:40px;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    gap:5px;
+    border-radius:50%;
+    border: none; background: transparent;
+    padding: 0;
+    cursor:pointer;
+    transition: background .25s;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-btn:hover{ background: rgba(0,0,0,0.04);}
+  .menu-btn:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px;}
+  .menu-btn span{
+    width:18px; height:1.5px; background:var(--ink); border-radius:2px;
+    transition: transform .3s ease, opacity .25s ease;
+  }
+  body.drawer-open .menu-btn span:nth-child(1){
+    transform: translateY(3.25px) rotate(45deg);
+  }
+  body.drawer-open .menu-btn span:nth-child(2){
+    transform: translateY(-3.25px) rotate(-45deg);
+  }
+
+  /* ============ DRAWER ============ */
+  .drawer-backdrop{
+    position: fixed; inset: 0;
+    background: rgba(14,19,21,0.50);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .drawer-backdrop.open{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .drawer{
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: min(360px, 88vw);
+    background: var(--paper);
+    color: var(--ink);
+    z-index: 999;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    display: flex; flex-direction: column;
+    box-shadow: -16px 0 40px -12px rgba(14,19,21,0.25);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .drawer.open{ transform: translateX(0);}
+  .drawer-inner{
+    display: flex; flex-direction: column;
+    min-height: 100%;
+    padding: 28px 32px 32px;
+  }
+  .drawer-head{
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 36px;
+  }
+  .drawer-eyebrow{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .drawer-close{
+    width:36px; height:36px;
+    border: 1px solid var(--line);
+    background: transparent;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+    transition: background .2s, border-color .2s;
+  }
+  .drawer-close:hover{ background: rgba(0,0,0,0.04); border-color: var(--ink);}
+  .drawer-close span{
+    position: absolute; top: 50%; left: 50%;
+    width: 14px; height: 1.5px;
+    background: var(--ink);
+    border-radius: 1px;
+  }
+  .drawer-close span:nth-child(1){ transform: translate(-50%,-50%) rotate(45deg);}
+  .drawer-close span:nth-child(2){ transform: translate(-50%,-50%) rotate(-45deg);}
+
+  .drawer-nav{
+    display: flex; flex-direction: column;
+    flex: 1;
+  }
+  .drawer-nav a{
+    display: block;
+    font-family: var(--display); font-weight: 500;
+    font-size: 26px; line-height: 1.2; letter-spacing: -0.018em;
+    color: var(--ink);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+    text-decoration: none;
+    transition: color .25s, padding-left .25s;
+  }
+  .drawer-nav a:last-child{ border-bottom: none;}
+  .drawer-nav a:hover{ color: var(--teal); padding-left: 6px;}
+  .drawer-nav a em{
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    color: var(--teal);
+  }
+  .drawer-nav a sup{
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); font-weight: 400;
+    margin-left: 4px;
+    vertical-align: super;
+  }
+  .drawer-nav a .arr{ color: var(--muted); margin-left: 6px;}
+
+  .drawer-foot{
+    margin-top: 32px; padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .drawer-email{
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .drawer-email:hover{ color: var(--teal);}
+  .drawer-addr{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  body.drawer-open{ overflow: hidden;}
+
+  @media (max-width:980px){
+    .topbar{padding:24px 28px; grid-template-columns: 1fr auto;}
+    .hero-wrap{padding:24px 24px 16px;}
+  }
+
+  /* ============ HERO BODY ============ */
+  .hero-body{
+    flex:1;
+    padding: 60px 56px 40px;
+    display:grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 60px;
+    align-items:end;
+    position:relative; z-index:3;
+  }
+  @media (max-width:900px){
+    .hero-body{ grid-template-columns:1fr; gap: 40px; padding: 40px 28px 24px;}
+  }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--display); font-size:14px; font-weight:500;
+    color:var(--ink-soft);
+    margin-bottom:24px;
+  }
+  .eyebrow::before{
+    content:""; width:5px; height:5px; background:var(--ink); border-radius:50%;
+  }
+
+  h1.hero-title{
+    font-family:var(--display);
+    font-weight:400;
+    font-size: clamp(44px, 5.6vw, 88px);
+    line-height:1.05;
+    letter-spacing:-0.025em;
+    color:var(--ink);
+  }
+  h1.hero-title .row{display:block; overflow:hidden;}
+  h1.hero-title .row > span{
+    display:inline-block;
+    transform:translateY(108%);
+    animation: rise 1.1s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  h1.hero-title .row:nth-child(1) > span{ animation-delay:.2s;}
+  h1.hero-title .row:nth-child(2) > span{ animation-delay:.32s;}
+  @keyframes rise{ to{ transform: translateY(0);}}
+  h1.hero-title em{
+    font-family:var(--serif);
+    font-style:italic;
+    font-weight:400;
+    letter-spacing:-0.01em;
+  }
+
+  .hero-aside{
+    display:flex; flex-direction:column; gap:20px;
+    align-items:flex-end;
+    animation: fade 1s ease 1s forwards; opacity:0;
+  }
+  @keyframes fade{ to{ opacity:1;}}
+  .hero-aside p{
+    font-family:var(--display);
+    font-size:15px; line-height:1.5;
+    color:var(--ink-soft);
+    max-width:340px;
+    text-align:right;
+  }
+  .hero-actions{
+    display:flex; align-items:center; gap:8px;
+    flex-wrap:wrap; justify-content:flex-end;
+  }
+  .pill{
+    padding:13px 22px;
+    border-radius:100px;
+    font-family:var(--display); font-size:14px; font-weight:500;
+    cursor:pointer;
+    transition: all .3s;
+    border:none;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .pill-sage{
+    background: var(--sage-light);
+    color: var(--ink);
+  }
+  .pill-sage:hover{ background: var(--sage);}
+  .pill-lime{
+    background: var(--lime);
+    color: var(--ink);
+  }
+  .pill-lime:hover{ background: var(--lime-bright);}
+  .circle-btn{
+    width:42px; height:42px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:transparent;
+    display:inline-flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition: all .25s;
+    color:var(--ink);
+  }
+  .circle-btn:hover{ background:var(--ink); color:var(--paper); border-color:var(--ink);}
+  .circle-btn svg{ width:14px; height:14px;}
+
+  /* ============ HERO TILES STRIP ============ */
+  .tiles{
+    display:grid;
+    grid-template-columns: 1.4fr 1.6fr 1.2fr 0.9fr;
+    gap:0;
+    height: 280px;
+    position:relative;
+    z-index:2;
+  }
+  .tile{
+    position:relative;
+    overflow:hidden;
+    border-right:1px solid var(--paper);
+  }
+  .tile:last-child{ border-right:none;}
+  @media (max-width:900px){
+    .tiles{ grid-template-columns: 1fr 1fr; height:auto;}
+    .tile{ height:200px; border-bottom:1px solid var(--paper);}
+  }
+
+  /* tile 1 — Barnard / Diagnostic intelligence (split panels of color washes) */
+  .tile-barnard{
+    background: linear-gradient(135deg, #2A3340 0%, #4A5560 50%, #7A8590 100%);
+    display:flex;
+  }
+  .tile-barnard .panel{ flex:1; position:relative;}
+  .tile-barnard .panel:nth-child(1){
+    background: linear-gradient(180deg, #DFB89A 0%, #B8855E 100%);
+  }
+  .tile-barnard .panel:nth-child(2){
+    background: linear-gradient(180deg, #1F2A35 0%, #4A5A65 100%);
+    border-left: 2px solid var(--lime);
+  }
+  .tile-barnard .panel:nth-child(3){
+    background: linear-gradient(180deg, #788A7E 0%, #95A595 100%);
+  }
+  .tile-barnard .scan-line{
+    position:absolute; top:0; left:0; right:0;
+    height:1px; background: rgba(255,255,255,0.6);
+    box-shadow: 0 0 8px rgba(255,255,255,0.7);
+    animation: scanY 4s ease-in-out infinite;
+  }
+  @keyframes scanY{ 0%,100%{top:0;} 50%{top:100%;}}
+  .tile-barnard .qr{
+    position:absolute; bottom:18px; left:18px;
+    width:50px; height:50px;
+    background:var(--lime);
+    padding:6px;
+    border-radius:4px;
+    display:grid; grid-template-columns: repeat(5, 1fr); gap:1.5px;
+  }
+  .tile-barnard .qr span{
+    background: var(--ink);
+  }
+  .tile-barnard .dots{
+    position:absolute; bottom:24px; right:24px;
+    display:grid; grid-template-columns: repeat(8, 4px); gap:3px;
+  }
+  .tile-barnard .dots span{
+    width:4px; height:4px; border-radius:50%;
+    background: rgba(255,255,255,0.6);
+  }
+
+  /* tile 2 — VRx / Verification (vertical lines / ribbed glass effect) */
+  .tile-vrx{
+    background: linear-gradient(180deg, #B8B8B0 0%, #6B6E68 100%);
+    position:relative;
+  }
+  .tile-vrx .ribs{
+    position:absolute; inset:0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.0) 0px,
+      rgba(255,255,255,0.18) 1px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(255,255,255,0.0) 4px
+    );
+  }
+  .tile-vrx .package{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:60%; height:55%;
+    background: linear-gradient(135deg, rgba(180,90,90,0.6), rgba(60,40,40,0.7));
+    border-radius:8px;
+    filter: blur(2px);
+  }
+  .tile-vrx .verify-overlay{
+    position:absolute; bottom:18px; left:18px; right:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .tile-vrx .play-btn{
+    width:30px; height:30px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.7);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tile-vrx .play-btn::after{
+    content:""; width:0; height:0;
+    border-left:7px solid rgba(255,255,255,0.9);
+    border-top:5px solid transparent;
+    border-bottom:5px solid transparent;
+    margin-left:2px;
+  }
+  .tile-vrx .label{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.1em;
+    color: rgba(255,255,255,0.9);
+    text-transform:uppercase;
+  }
+  .tile-vrx .label .small{
+    display:block; font-size:9px; opacity:0.7; margin-top:2px;
+  }
+
+  /* tile 3 — SERA / Continuous monitoring (device + status pills) */
+  .tile-sera{
+    background: linear-gradient(180deg, #DEDFD9 0%, #B8BAB3 100%);
+    position:relative;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tile-sera .pills-row{
+    position:absolute; top:18px; left:18px;
+    display:flex; gap:6px;
+  }
+  .tile-sera .mini-pill{
+    padding:5px 10px;
+    border-radius:100px;
+    background: rgba(255,255,255,0.7);
+    font-family:var(--mono); font-size:10px; letter-spacing:0.05em;
+    color:var(--ink-soft);
+    display:inline-flex; align-items:center; gap:5px;
+    border:1px solid rgba(255,255,255,0.9);
+  }
+  .tile-sera .mini-pill.active{
+    background: var(--lime);
+    color:var(--ink);
+  }
+  .tile-sera .mini-pill .icon{
+    width:8px; height:8px; border-radius:1px; background:var(--ink);
+  }
+  .tile-sera .device{
+    width:55%; height:70%;
+    background: linear-gradient(160deg, #F0F0EB 0%, #C8CAC4 100%);
+    border-radius: 60px 60px 30px 30px / 100px 100px 30px 30px;
+    border:2px solid rgba(255,255,255,0.7);
+    position:relative;
+    box-shadow: inset 0 -20px 40px rgba(0,0,0,0.1);
+  }
+  .tile-sera .device::before{
+    content:""; position:absolute; top:18%; left:30%; width:40%; height:8%;
+    background: var(--navy);
+    border-radius: 4px;
+    opacity:0.6;
+  }
+  .tile-sera .device::after{
+    content:""; position:absolute; top:32%; left:30%; width:40%; height:5%;
+    background: var(--navy); opacity:0.4;
+    border-radius: 2px;
+  }
+  .tile-sera .pulse{
+    position:absolute; bottom:14%; left:50%; transform:translateX(-50%);
+    width:18px; height:18px; border-radius:50%;
+    background: var(--teal-glow);
+    box-shadow: 0 0 0 0 rgba(61,223,176,0.7);
+    animation: heartPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes heartPulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(61,223,176,0.7);}
+    50%{ box-shadow: 0 0 0 14px rgba(61,223,176,0);}
+  }
+
+  /* tile 4 — Bisma / Patient triage (soft blurred portrait silhouette) */
+  .tile-bisma{
+    background:
+      radial-gradient(ellipse 60% 70% at 50% 40%, #C5D5D2 0%, #98AFAC 50%, #6E8783 100%);
+    position:relative;
+    overflow:hidden;
+  }
+  .tile-bisma::before{
+    content:""; position:absolute; inset:0;
+    backdrop-filter: blur(20px);
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(0,0,0,0.04) 2px);
+  }
+  /* Abstract "presence" — represents a patient figure */
+  .tile-bisma .silhouette{
+    position:absolute; top:18%; left:50%; transform: translateX(-50%);
+    width:55%; height:70%;
+    background: radial-gradient(ellipse 70% 55% at 50% 35%,
+      rgba(60,80,90,0.5) 0%,
+      rgba(70,95,100,0.35) 35%,
+      transparent 70%);
+    filter: blur(8px);
+  }
+  .tile-bisma .controls{
+    position:absolute; bottom:18px; left:18px;
+    display:flex; gap:8px; align-items:center;
+  }
+  .tile-bisma .ctl{
+    width:24px; height:24px; border-radius:50%;
+    border:1.5px solid rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.1);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tile-bisma .ctl::after{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:rgba(255,255,255,0.9);
+  }
+  .tile-bisma .lime-dot{
+    width:14px; height:14px; border-radius:50%;
+    background: var(--lime);
+  }
+
+  /* ============ MARQUEE ============ */
+  .marquee{
+    background:var(--sage);
+    padding:18px 0;
+    overflow:hidden;
+    border-top:1px solid rgba(255,255,255,0.2);
+    border-bottom:1px solid rgba(255,255,255,0.2);
+  }
+  .marquee-track{
+    display:flex; gap:48px; white-space:nowrap;
+    animation: marquee 50s linear infinite;
+    font-family:var(--display); font-size:13px; font-weight:500;
+    letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--ink);
+  }
+  .marquee-track span{display:flex; align-items:center; gap:48px;}
+  .marquee-track .dot{ width:5px; height:5px; background:var(--lime); border-radius:50%;}
+  @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* ============ SECTION SHARED ============ */
+  section{position:relative;}
+  .container{ max-width:1500px; margin:0 auto; padding: 0 60px;}
+  @media (max-width:700px){.container{padding:0 28px;}}
+  .section-label{
+    display:flex; align-items:center; gap:14px;
+    font-family:var(--display); font-size:13px; font-weight:500;
+    color:var(--ink-soft);
+    margin-bottom:20px;
+  }
+  .section-label::before{
+    content:""; width:6px; height:6px; background:var(--ink); border-radius:50%;
+  }
+
+  .heading-xl{
+    font-family:var(--display);
+    font-weight:400;
+    font-size: clamp(34px, 4.4vw, 64px);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  .heading-xl em{
+    font-family:var(--serif); font-style:italic; font-weight:400;
+  }
+  .heading-md{
+    font-family:var(--display); font-weight:500;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height:1.15; letter-spacing:-0.01em;
+  }
+  .heading-md em{
+    font-family:var(--serif); font-style:italic; font-weight:400;
+  }
+
+  /* ============ MANIFESTO ============ */
+  .manifesto{
+    padding: 140px 0;
+    background: var(--paper);
+  }
+  .manifesto-grid{
+    display:grid; grid-template-columns: 1fr 1.4fr; gap:80px;
+  }
+  @media (max-width:900px){.manifesto-grid{grid-template-columns:1fr; gap:32px;}}
+  .manifesto-body p{
+    font-size:17px; line-height:1.65; margin-bottom:18px; color:var(--ink-soft);
+  }
+  .manifesto-stats{
+    margin-top:64px; padding-top:36px; border-top:1px solid var(--line);
+    display:grid; grid-template-columns: repeat(4,1fr); gap:24px;
+  }
+  @media (max-width:700px){.manifesto-stats{grid-template-columns: repeat(2,1fr);}}
+  .stat .num{
+    font-family:var(--display); font-weight:400; font-size:42px;
+    color:var(--ink); letter-spacing:-0.02em;
+  }
+  .stat .num em{ font-family:var(--serif); font-style:italic;}
+  .stat .label{
+    font-family:var(--display); font-size:12px;
+    color:var(--muted); margin-top:6px;
+  }
+
+  /* ============ PRODUCTS ============ */
+  .products{
+    padding: 140px 0;
+    background: var(--paper-2);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    scroll-margin-top: 24px;
+  }
+  .products-header{
+    display:grid; grid-template-columns:1.2fr 1fr; gap:60px; align-items:end;
+    margin-bottom: 64px;
+  }
+  @media (max-width:900px){.products-header{grid-template-columns:1fr;}}
+  .products-header .desc{ font-size:16px; line-height:1.6; color:var(--ink-soft); max-width:440px;}
+  .product-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:20px;}
+  @media (max-width:900px){.product-grid{grid-template-columns:1fr;}}
+
+  .product-card{
+    background: var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:36px;
+    position:relative;
+    overflow:hidden;
+    transition: all .4s;
+    min-height:420px;
+    display:flex; flex-direction:column;
+  }
+  .product-card:hover{
+    transform: translateY(-3px);
+    border-color: rgba(14,19,21,0.2);
+    box-shadow: 0 24px 60px -20px rgba(14,19,21,0.12);
+  }
+  .product-card .num{
+    position:absolute; top:24px; right:32px;
+    font-family:var(--display); font-size:13px; font-weight:500; color:var(--muted);
+  }
+  .product-card .num sup{ font-size:9px; color:var(--lime);}
+  .product-card .tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--display); font-size:12px;
+    color:var(--ink-soft); margin-bottom:24px; font-weight:500;
+  }
+  .product-card .tag::before{
+    content:""; width:6px; height:6px; border-radius:50%; background:var(--lime);
+  }
+  .product-card h3{
+    font-family:var(--display); font-weight:400;
+    font-size:38px; letter-spacing:-0.02em;
+    margin-bottom:6px; color:var(--ink);
+  }
+  .product-card h3 em{
+    font-family:var(--serif); font-style:italic;
+  }
+  .product-card .product-sub{
+    font-family:var(--display); font-size:13px; color:var(--muted);
+    margin-bottom:18px;
+  }
+  .product-card p{ font-size:15px; line-height:1.6; color:var(--ink-soft); flex:1;}
+  .product-visual{
+    margin-top:28px; padding-top:24px; border-top:1px solid var(--line);
+    height:110px; position:relative;
+  }
+
+  .visual-barnard-card{ display:flex; gap:14px; align-items:center;}
+  .scan-grid{
+    flex:1; height:80px; position:relative;
+    background-image: linear-gradient(rgba(14,19,21,0.08) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(14,19,21,0.08) 1px, transparent 1px);
+    background-size:14px 14px;
+    border:1px solid var(--line); border-radius:6px;
+    overflow:hidden;
+  }
+  .scan-grid::after{
+    content:""; position:absolute; left:0; top:0; width:2px; height:100%;
+    background: linear-gradient(180deg, transparent, var(--ink), transparent);
+    animation: scanX 3s linear infinite;
+  }
+  @keyframes scanX{0%{left:0;}100%{left:100%;}}
+  .vitals-mini{flex:0 0 90px; height:80px;}
+  .vitals-mini svg{ width:100%; height:100%; }
+
+  .visual-vrx-card{position:relative;}
+  .vrx-frame{
+    width:100%; height:100%;
+    border:1px dashed var(--line); border-radius:6px; position:relative;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .vrx-corner{
+    position:absolute; width:18px; height:18px; border:2px solid var(--ink);
+  }
+  .vrx-corner.tl{top:-1px; left:-1px; border-right:none; border-bottom:none;}
+  .vrx-corner.tr{top:-1px; right:-1px; border-left:none; border-bottom:none;}
+  .vrx-corner.bl{bottom:-1px; left:-1px; border-right:none; border-top:none;}
+  .vrx-corner.br{bottom:-1px; right:-1px; border-left:none; border-top:none;}
+  .vrx-status{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.08em;
+    color:var(--ink); display:flex; align-items:center; gap:8px;
+  }
+  .vrx-status::before{
+    content:""; width:8px; height:8px; background:var(--teal); border-radius:50%;
+    box-shadow:0 0 8px var(--teal); animation:blink 1.5s infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+  .visual-sera-card{display:flex; align-items:center; gap:14px;}
+  .heart-pulse-card{ flex:1; height:80px;}
+  .heart-pulse-card svg{width:100%; height:100%;}
+  .heart-pulse-card path{
+    stroke:var(--ink); stroke-width:1.6; fill:none;
+    stroke-dasharray:1000; stroke-dashoffset:1000;
+    animation: draw 4s linear infinite;
+  }
+  @keyframes draw{
+    0%{stroke-dashoffset:1000;}
+    50%{stroke-dashoffset:0;}
+    100%{stroke-dashoffset:-1000;}
+  }
+  .sera-data{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; flex:1;}
+  .sera-stat{ border:1px solid var(--line); padding:8px; border-radius:5px; }
+  .sera-stat .v{font-family:var(--display); font-size:15px; color:var(--ink); font-weight:500;}
+  .sera-stat .l{font-family:var(--mono); font-size:9px; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;}
+
+  .visual-bisma-card{display:flex; flex-direction:column; gap:6px; justify-content:center;}
+  .chat-bubble{padding:7px 13px; border-radius:14px; font-size:12px; max-width:80%;}
+  .chat-bubble.user{background:var(--sage-light); color:var(--ink); align-self:flex-end;}
+  .chat-bubble.bot{background: rgba(14,19,21,0.04); border:1px solid var(--line); color:var(--ink-soft); align-self:flex-start;}
+
+  /* ============ PLATFORM ============ */
+  .platform{ padding:140px 0; background:var(--paper);}
+  .platform .heading-xl{ max-width:900px; margin-bottom:60px;}
+  .stack{
+    display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;
+  }
+  @media (max-width:900px){.stack{grid-template-columns:1fr;}}
+  .stack-layers{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:16px;
+    overflow:hidden;
+  }
+  .layer{
+    padding:20px 24px;
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:18px;
+    transition:background .25s;
+  }
+  .layer:last-child{border-bottom:none;}
+  .layer:hover{ background: rgba(168,183,176,0.15);}
+  .layer-num{font-family:var(--mono); font-size:11px; color:var(--muted); flex:0 0 36px;}
+  .layer-name{font-family:var(--display); font-size:16px; font-weight:500; flex:1;}
+  .layer-tag{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    padding:4px 10px; border:1px solid var(--line); border-radius:100px;
+    color:var(--muted);
+  }
+  .layer:hover .layer-tag{ color:var(--ink); border-color:var(--ink);}
+
+  .stack-text h3{ margin-bottom:18px;}
+  .stack-text p{ font-size:16px; line-height:1.65; color:var(--ink-soft); margin-bottom:18px;}
+  .stack-features{ list-style:none; margin-top:28px;}
+  .stack-features li{
+    padding:14px 0; border-bottom:1px solid var(--line);
+    display:flex; align-items:flex-start; gap:14px;
+    font-size:14px; color:var(--ink-soft);
+  }
+  .stack-features li::before{ content:"+"; color:var(--sage-deep); font-family:var(--mono); font-weight:600;}
+
+  /* ============ TRUST ============ */
+  .trust{ padding:140px 0; background:var(--paper-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .trust-grid{ display:grid; grid-template-columns:1.2fr 1fr; gap:80px; align-items:center;}
+  @media (max-width:900px){.trust-grid{grid-template-columns:1fr;}}
+  .trust .heading-xl{ margin-bottom:24px;}
+  .trust p{ font-size:17px; color:var(--ink-soft); line-height:1.6; margin-bottom:18px; max-width:520px;}
+
+  .globe-viz{ aspect-ratio:1; max-width:460px; margin:0 auto;}
+  .globe-viz svg{ width:100%; height:100%;}
+  .globe-ring{ fill:none; stroke:rgba(14,19,21,0.18); stroke-width:1;}
+  .globe-pulse{ fill:var(--sage-deep); animation: dot 3s ease-in-out infinite;}
+  .globe-pulse:nth-child(8){animation-delay:.0s;}
+  .globe-pulse:nth-child(9){animation-delay:.4s;}
+  .globe-pulse:nth-child(10){animation-delay:.8s;}
+  .globe-pulse:nth-child(11){animation-delay:1.2s;}
+  .globe-pulse:nth-child(12){animation-delay:1.6s;}
+  .globe-pulse:nth-child(13){animation-delay:2.0s;}
+  @keyframes dot{0%,100%{opacity:0.3; r:3;} 50%{opacity:1; r:5;}}
+
+  .pill-link{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:13px 22px;
+    font-family:var(--display); font-size:14px; font-weight:500;
+    background: var(--sage-light); color: var(--ink);
+    border-radius:100px;
+    transition: all .3s;
+  }
+  .pill-link:hover{ background: var(--sage);}
+
+  /* ============ MISSION ============ */
+  .mission{ padding:160px 0; text-align:center; background:var(--paper);}
+  .mission-quote{
+    font-family:var(--display); font-weight:400;
+    font-size: clamp(26px, 3vw, 44px);
+    line-height:1.25; letter-spacing:-0.015em;
+    max-width:1000px; margin:0 auto;
+    color:var(--ink);
+  }
+  .mission-quote em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .mission-attr{ margin-top:36px; font-family:var(--display); font-size:13px; color:var(--muted);}
+
+  /* ============ CTA / FOOTER ============ */
+  .cta{ padding:140px 0 60px; background:var(--ink); color:var(--paper); border-top:1px solid var(--line);}
+  .cta .heading-xl{ color:var(--paper); max-width:900px;}
+  .cta .heading-xl em{ color:var(--lime);}
+  .cta-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:80px; align-items:end; padding-bottom:80px; border-bottom:1px solid rgba(255,255,255,0.1);}
+  @media (max-width:900px){.cta-grid{grid-template-columns:1fr;}}
+  .cta-side p{ font-size:15px; line-height:1.6; color:rgba(244,241,234,0.7); margin-bottom:24px;}
+  .cta .pill-light{
+    padding:13px 24px; border-radius:100px;
+    font-family:var(--display); font-size:14px; font-weight:500;
+    background:var(--lime); color:var(--ink); transition: all .25s;
+  }
+  .cta .pill-light:hover{ background: var(--lime-bright);}
+  .cta .pill-ghost{
+    padding:13px 24px; border-radius:100px;
+    font-family:var(--display); font-size:14px; font-weight:500;
+    border:1px solid rgba(255,255,255,0.3);
+    color:var(--paper); transition: all .25s;
+  }
+  .cta .pill-ghost:hover{ background:var(--paper); color:var(--ink); border-color:var(--paper);}
+  .cta .section-label{ color:rgba(244,241,234,0.6);}
+  .cta .section-label::before{ background: var(--lime);}
+
+  .footer{ padding-top:80px; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:60px;}
+  @media (max-width:900px){.footer{grid-template-columns:1fr 1fr; gap:40px;}}
+  .footer-brand .brand{ color:var(--paper); margin-bottom:18px;}
+  .footer-brand .brand .reg{ color:rgba(255,255,255,0.6);}
+  .footer-brand p{ font-size:13px; color:rgba(244,241,234,0.65); max-width:300px; line-height:1.6;}
+  .footer-col h4{ font-family:var(--display); font-size:13px; font-weight:500; color:var(--lime); margin-bottom:18px;}
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:10px;}
+  .footer-col a{ font-size:13px; color:rgba(244,241,234,0.75); transition:color .25s;}
+  .footer-col a:hover{ color:var(--paper);}
+  .footer-bottom{
+    margin-top:60px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.1);
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--display); font-size:12px; color:rgba(244,241,234,0.5);
+    flex-wrap:wrap; gap:16px;
+  }
+
+  /* SUMI FLOATING LAUNCHER */
+  .sumi-launcher{
+    position:fixed; bottom:28px; right:28px;
+    z-index:90;
+    display:flex; align-items:center; gap:12px;
+    pointer-events:none;
+  }
+  .sumi-launcher .bubble{
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius:100px;
+    padding:12px 18px 12px 20px;
+    font-family:var(--display); font-size:13.5px; color:var(--ink);
+    line-height:1.3;
+    max-width:240px;
+    box-shadow: 0 16px 40px -16px rgba(14,19,21,0.18), 0 0 0 1px rgba(255,255,255,0.6) inset;
+    position:relative;
+    pointer-events:auto;
+    transform: translateX(20px) scale(0.95);
+    opacity:0;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), opacity .3s;
+  }
+  .sumi-launcher .bubble.show{
+    transform: translateX(0) scale(1); opacity:1;
+  }
+  .sumi-launcher .bubble em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .sumi-launcher .bubble::after{
+    content:""; position:absolute; right:-6px; top:50%; transform:translateY(-50%) rotate(45deg);
+    width:10px; height:10px; background:var(--paper);
+    border-right:1px solid var(--line); border-top:1px solid var(--line);
+  }
+  .sumi-launcher .bubble .close{
+    position:absolute; top:-6px; right:-6px;
+    width:20px; height:20px; border-radius:50%;
+    background:var(--ink); color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:11px; line-height:1;
+    border:2px solid var(--paper);
+  }
+  .sumi-launcher .btn{
+    width:60px; height:60px; border-radius:50%;
+    background: linear-gradient(135deg, var(--lime) 0%, var(--teal-glow) 100%);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; pointer-events:auto;
+    box-shadow:
+      0 12px 32px -8px rgba(61,223,176,0.45),
+      0 4px 12px rgba(14,19,21,0.12),
+      0 0 0 4px rgba(255,255,255,0.5);
+    transition: all .3s;
+    position:relative;
+    text-decoration:none;
+    color:var(--ink);
+    font-family:var(--serif); font-style:italic; font-size:26px; font-weight:400;
+  }
+  .sumi-launcher .btn:hover{
+    transform: scale(1.06);
+    box-shadow:
+      0 16px 40px -8px rgba(61,223,176,0.55),
+      0 4px 12px rgba(14,19,21,0.15),
+      0 0 0 4px rgba(255,255,255,0.6);
+  }
+  /* Online dot */
+  .sumi-launcher .btn::after{
+    content:""; position:absolute; bottom:2px; right:2px;
+    width:14px; height:14px; border-radius:50%;
+    background: var(--teal);
+    border: 3px solid var(--paper);
+  }
+  /* Pulsing ring */
+  .sumi-launcher .btn::before{
+    content:""; position:absolute; inset:-4px;
+    border-radius:50%;
+    border: 2px solid var(--teal-glow);
+    opacity:0;
+    animation: sumiRing 2.8s ease-out infinite;
+  }
+  @keyframes sumiRing{
+    0%{ transform:scale(0.9); opacity:0.6;}
+    80%{ transform:scale(1.4); opacity:0;}
+    100%{ transform:scale(1.4); opacity:0;}
+  }
+  @media (max-width:600px){
+    .sumi-launcher{ bottom:20px; right:20px;}
+    .sumi-launcher .bubble{ display:none;}
+    .sumi-launcher .btn{ width:54px; height:54px; font-size:22px;}
+  }
+
+  .reveal{ opacity:0; transform:translateY(30px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1);}
+  .reveal.in{ opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ===================== HERO ===================== -->
+<div class="hero-wrap">
+  <section class="hero">
+
+    <!-- top bar -->
+    <div class="topbar">
+      <a href="index.html" class="brand">
+        <span class="brand-mark"></span>sumora<span class="reg">®</span>
+      </a>
+
+      <div class="topbar-right">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false" type="button">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+    <aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-labelledby="drawerLabel">
+      <div class="drawer-inner">
+        <div class="drawer-head">
+          <span class="drawer-eyebrow" id="drawerLabel">// MENU</span>
+          <button class="drawer-close" id="drawerClose" aria-label="Close menu" type="button">
+            <span></span><span></span>
+          </button>
+        </div>
+        <nav class="drawer-nav">
+      <a href="index.html"><em>Home</em></a>
+      <a href="technology.html">Technology</a>
+      <a href="index.html#solutions">Solutions <sup>(4)</sup></a>
+      <a href="signals.html">Signals</a>
+      <a href="about.html">About</a>
+      <a href="careers.html">Careers <sup>(7)</sup></a>
+      <a href="contact.html">Contact</a>
+    </nav>
+        <div class="drawer-foot">
+          <a href="mailto:hello@sumorahealth.com" class="drawer-email">hello@sumorahealth.com</a>
+          <span class="drawer-addr">Downtown Dubai · UAE</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- hero body -->
+    <div class="hero-body">
+      <div>
+        <div class="eyebrow">AI-Native Healthcare</div>
+        <h1 class="hero-title">
+          <span class="row"><span>Redefining Care</span></span>
+          <span class="row"><span>with <em>Intelligence</em></span></span>
+        </h1>
+      </div>
+
+      <div class="hero-aside">
+        <p>A new dimension of medicine — where AI-native tools support clinicians, watch over patients, and verify what matters at every stage of care.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="pill pill-sage">Got any questions?</a>
+          <a href="#contact" class="pill pill-lime">Contact us</a>
+          <button class="circle-btn" aria-label="Scroll down">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5 V19 M6 13 L12 19 L18 13"/></svg>
+          </button>
+          <button class="circle-btn" aria-label="Top">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19 V5 M6 11 L12 5 L18 11"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- bottom tile strip -->
+    <div class="tiles">
+
+      <!-- TILE 1 — Barnard / Diagnostic intelligence -->
+      <div class="tile tile-barnard">
+        <div class="panel"></div>
+        <div class="panel"></div>
+        <div class="panel"></div>
+        <div class="scan-line"></div>
+        <div class="qr">
+          <span></span><span style="background:transparent"></span><span></span><span></span><span style="background:transparent"></span>
+          <span></span><span></span><span style="background:transparent"></span><span></span><span></span>
+          <span style="background:transparent"></span><span></span><span></span><span></span><span style="background:transparent"></span>
+          <span></span><span style="background:transparent"></span><span></span><span style="background:transparent"></span><span></span>
+          <span></span><span></span><span></span><span style="background:transparent"></span><span></span>
+        </div>
+        <div class="dots">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <!-- TILE 2 — VRx / Verification (ribbed glass) -->
+      <div class="tile tile-vrx">
+        <div class="package"></div>
+        <div class="ribs"></div>
+        <div class="verify-overlay">
+          <div class="play-btn"></div>
+          <div class="label">
+            VRx Verification
+            <span class="small">PACKET R938 · LOT M487</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 3 — SERA / Continuous monitoring -->
+      <div class="tile tile-sera">
+        <div class="pills-row">
+          <div class="mini-pill active"><span class="icon"></span>SERA</div>
+          <div class="mini-pill">ECG</div>
+          <div class="mini-pill">BPM</div>
+        </div>
+        <div class="device"></div>
+        <div class="pulse"></div>
+      </div>
+
+      <!-- TILE 4 — Bisma / Patient triage -->
+      <div class="tile tile-bisma">
+        <div class="silhouette"></div>
+        <div class="controls">
+          <div class="ctl"></div>
+          <div class="lime-dot"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+</div>
+
+<!-- ===================== MARQUEE ===================== -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Diagnostic AI <span class="dot"></span> Counterfeit Detection <span class="dot"></span> Remote Vitals <span class="dot"></span> Self-Triage <span class="dot"></span> Secure Records <span class="dot"></span> Clinician Network <span class="dot"></span></span>
+    <span>Diagnostic AI <span class="dot"></span> Counterfeit Detection <span class="dot"></span> Remote Vitals <span class="dot"></span> Self-Triage <span class="dot"></span> Secure Records <span class="dot"></span> Clinician Network <span class="dot"></span></span>
+  </div>
+</div>
+
+<!-- ===================== MANIFESTO ===================== -->
+<section class="manifesto reveal" id="about">
+  <div class="container">
+    <div class="manifesto-grid">
+      <div>
+        <div class="section-label">The Premise</div>
+        <h2 class="heading-xl">Healthcare,<br>rebuilt from the <em>model</em> up.</h2>
+      </div>
+      <div class="manifesto-body">
+        <p>Modern medicine knows what to do. The hard part is doing it everywhere, for everyone, all the time. Sumora exists to close that gap with software — building AI systems that work alongside doctors, watch over patients between visits, and bring world-class diagnostic capability to a phone, a clinic, a home.</p>
+        <p>We are an investment in making healthcare economical and accessible — not as a slogan, but as an engineering brief. Every product we ship is measured against that line.</p>
+      </div>
+    </div>
+    <div class="manifesto-stats">
+      <div class="stat"><div class="num">04</div><div class="label">Flagship Products</div></div>
+      <div class="stat"><div class="num">2024</div><div class="label">Founded · Dubai</div></div>
+      <div class="stat"><div class="num"><em>∞</em></div><div class="label">Patients At Home</div></div>
+      <div class="stat"><div class="num">24/7</div><div class="label">Clinical Uptime</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRODUCTS ===================== -->
+<section class="products reveal" id="solutions">
+  <div class="container">
+    <div class="products-header">
+      <div>
+        <div class="section-label">Our Solutions</div>
+        <h2 class="heading-xl">Four solutions.<br>One <em>nervous system</em> for care.</h2>
+      </div>
+      <p class="desc">Each product is a specialist agent. Together they form a continuous loop — diagnosis, verification, monitoring, and self-care — all writing back to a single secure record the patient owns and the provider trusts.</p>
+    </div>
+
+    <div class="product-grid">
+      <article class="product-card">
+        <div class="num">001 <sup>(New)</sup></div>
+        <div class="tag">Clinical Co-Pilot</div>
+        <h3>Barnard</h3>
+        <div class="product-sub">AI Assistant for Diagnosis</div>
+        <p>A reasoning engine that sits beside the physician — synthesising symptoms, history, labs and imaging into a ranked differential in seconds. Barnard explains its reasoning, cites the literature behind every suggestion, and learns the contours of each clinic it serves.</p>
+        <div class="product-visual visual-barnard-card">
+          <div class="scan-grid"></div>
+          <div class="vitals-mini">
+            <svg viewBox="0 0 100 60"><polyline points="0,30 15,30 22,10 28,50 35,30 100,30" fill="none" stroke="#0E1315" stroke-width="1.5"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="num">002</div>
+        <div class="tag">Pharmaceutical Trust</div>
+        <h3>VRx</h3>
+        <div class="product-sub">AI Counterfeit Medicine Detection</div>
+        <p>Point a phone camera at a packet. VRx compares packaging, holograms and print micro-features against verified records from the originating pharmaceutical company in real time — flagging counterfeits before they reach a patient.</p>
+        <div class="product-visual visual-vrx-card">
+          <div class="vrx-frame">
+            <div class="vrx-corner tl"></div><div class="vrx-corner tr"></div>
+            <div class="vrx-corner bl"></div><div class="vrx-corner br"></div>
+            <div class="vrx-status">VERIFIED · LOT 7A·EU·2026</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="num">003</div>
+        <div class="tag">Continuous Care</div>
+        <h3>SERA</h3>
+        <div class="product-sub">Constant Patient Contact Device</div>
+        <p>A small wearable + bedside companion that streams vitals — rhythm, oxygen, pressure, glucose — to the patient's care team, the moment they leave the hospital. SERA turns "see you in six weeks" into a continuous, supervised recovery.</p>
+        <div class="product-visual visual-sera-card">
+          <div class="heart-pulse-card">
+            <svg viewBox="0 0 200 80" preserveAspectRatio="none">
+              <path d="M0,40 L40,40 L50,40 L55,20 L60,60 L65,30 L70,50 L75,40 L120,40 L130,40 L135,15 L140,65 L145,40 L200,40"/>
+            </svg>
+          </div>
+          <div class="sera-data">
+            <div class="sera-stat"><div class="v">72</div><div class="l">BPM</div></div>
+            <div class="sera-stat"><div class="v">98%</div><div class="l">SpO₂</div></div>
+            <div class="sera-stat"><div class="v">36.6</div><div class="l">°C</div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="num">004</div>
+        <div class="tag">Patient Side</div>
+        <h3>Bisma</h3>
+        <div class="product-sub">Self-Diagnosis & Triage Companion</div>
+        <p>A conversational triage agent for the patient. Bisma asks the right questions in the right order, narrows down a probable cause, and either guides self-care or hands a complete clinical brief to a human professional.</p>
+        <div class="product-visual visual-bisma-card">
+          <div class="chat-bubble user">Chest tightness when running, 3 days</div>
+          <div class="chat-bubble bot">A few questions before I suggest next steps...</div>
+          <div class="chat-bubble user">Yes, breath shortness too</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PLATFORM ===================== -->
+<section class="platform reveal" id="platform">
+  <div class="container">
+    <div class="section-label">The Platform</div>
+    <h2 class="heading-xl">Every product writes to the same patient record — the one the <em>patient</em> owns.</h2>
+
+    <div class="stack">
+      <div class="stack-layers">
+        <div class="layer"><span class="layer-num">L01</span><span class="layer-name">Patient Identity</span><span class="layer-tag">Sovereign</span></div>
+        <div class="layer"><span class="layer-num">L02</span><span class="layer-name">Encrypted Record</span><span class="layer-tag">E2EE</span></div>
+        <div class="layer"><span class="layer-num">L03</span><span class="layer-name">Provider Auth Layer</span><span class="layer-tag">Granular</span></div>
+        <div class="layer"><span class="layer-num">L04</span><span class="layer-name">Sumora AI Models</span><span class="layer-tag">Clinical-grade</span></div>
+        <div class="layer"><span class="layer-num">L05</span><span class="layer-name">Device & App SDK</span><span class="layer-tag">Open</span></div>
+        <div class="layer"><span class="layer-num">L06</span><span class="layer-name">Clinician Network</span><span class="layer-tag">Global</span></div>
+      </div>
+      <div class="stack-text">
+        <h3 class="heading-md">One record. The <em>patient's</em>. Forever.</h3>
+        <p>Behind every Sumora product is a single secure database holding the complete medical history of the patient — accessible only to providers the patient explicitly authorises, anywhere they go.</p>
+        <p>It moves with the patient between cities, continents, and care teams. It works whether the next clinician is across the street or across the world.</p>
+        <ul class="stack-features">
+          <li>End-to-end encrypted, with patient-held access keys</li>
+          <li>Audit log of every read, every write, every model query</li>
+          <li>Interoperable with HL7, FHIR, and major EMR systems</li>
+          <li>Designed against HIPAA, GDPR and UAE DHA frameworks</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRUST / NETWORK ===================== -->
+<section class="trust reveal" id="network">
+  <div class="container">
+    <div class="trust-grid">
+      <div>
+        <div class="section-label">The Network</div>
+        <h2 class="heading-xl">Built with <em>doctors</em>.<br>From every continent.</h2>
+        <p>Sumora's products are not built in a vacuum. We work with practising physicians, surgeons, and researchers across multiple countries, who shape every product decision — from how Barnard reasons about a differential to how SERA escalates an alarm.</p>
+        <p style="color:var(--muted); font-size:15px;">If a clinical idea ships at Sumora, a clinician helped write it.</p>
+        <a href="#contact" class="pill-link" style="margin-top:24px;">Join the advisory →</a>
+      </div>
+      <div class="globe-viz">
+        <svg viewBox="0 0 400 400">
+          <circle class="globe-ring" cx="200" cy="200" r="180"/>
+          <circle class="globe-ring" cx="200" cy="200" r="140"/>
+          <circle class="globe-ring" cx="200" cy="200" r="100"/>
+          <circle class="globe-ring" cx="200" cy="200" r="60"/>
+          <ellipse class="globe-ring" cx="200" cy="200" rx="180" ry="60"/>
+          <ellipse class="globe-ring" cx="200" cy="200" rx="180" ry="120"/>
+          <ellipse class="globe-ring" cx="200" cy="200" rx="60" ry="180"/>
+          <circle class="globe-pulse" cx="120" cy="140" r="3"/>
+          <circle class="globe-pulse" cx="280" cy="170" r="3"/>
+          <circle class="globe-pulse" cx="200" cy="80" r="3"/>
+          <circle class="globe-pulse" cx="320" cy="240" r="3"/>
+          <circle class="globe-pulse" cx="100" cy="260" r="3"/>
+          <circle class="globe-pulse" cx="240" cy="320" r="3"/>
+          <circle cx="200" cy="200" r="6" fill="#1E2A78"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MISSION ===================== -->
+<section class="mission reveal" id="mission">
+  <div class="container">
+    <div class="section-label" style="justify-content:center; margin-bottom:36px;">The Mission</div>
+    <p class="mission-quote">Sumora is an investment in making world-class healthcare <em>economical</em> and <em>accessible</em> — for the patient in a city hospital, and for the patient three villages from the nearest road.</p>
+    <div class="mission-attr">— Sumora Health · Dubai · 2024</div>
+  </div>
+</section>
+
+<!-- ===================== CTA / FOOTER ===================== -->
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="cta-grid">
+      <div>
+        <div class="section-label">Get In Touch</div>
+        <h2 class="heading-xl">Bring Sumora into your <em>practice</em>.</h2>
+      </div>
+      <div class="cta-side">
+        <p>Talk to us about pilots for hospitals, clinics, pharmacies, and home-care providers — or join the clinical advisory if you'd like to help shape what comes next.</p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a class="pill-light" href="mailto:hello@sumora.health">Request a pilot</a>
+          <a class="pill-ghost" href="mailto:clinicians@sumora.health">For clinicians</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-brand">
+        <div class="brand"><span class="brand-mark" style="background:var(--lime);"></span>sumora<span class="reg">®</span></div>
+        <p>An AI healthcare company building intelligent systems for clinicians, patients, and the care that connects them.</p>
+        <p style="margin-top:14px; font-family:var(--mono); font-size:11px; letter-spacing:0.1em; color:var(--lime);">DUBAI · UAE</p>
+      </div>
+      <div class="footer-col">
+        <h4>Solutions</h4>
+        <ul><li><a href="#solutions">Barnard</a></li><li><a href="#solutions">VRx</a></li><li><a href="#solutions">SERA</a></li><li><a href="#solutions">Bisma</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul><li><a href="about.html">About</a></li><li><a href="careers.html">Careers</a></li><li><a href="contact.html">Contact</a></li><li><a href="signals.html">Signals</a></li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>Trust</h4>
+        <ul><li><a href="technology.html#evaluation">Evaluation</a></li><li><a href="technology.html#limits">Limitations</a></li><li><a href="technology.html#references">References</a></li><li><a href="technology.html">Technology</a></li></ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 Sumora Health · All rights reserved</div>
+      <div>Designed in Dubai · Trained on consented data</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+<!-- Sumi floating launcher -->
+<div class="sumi-launcher">
+  <div class="bubble" id="sumiBubble">
+    <span class="close" id="sumiBubbleClose" aria-label="Dismiss">×</span>
+    Hi — I'm <em>Sumi</em>. Ask me anything about Sumora.
+  </div>
+  <a href="contact.html" class="btn" aria-label="Chat with Sumi">S</a>
+</div>
+
+<script>
+  // Show the intro bubble after a brief delay; remember dismissal in this session
+  (function(){
+    const bubble = document.getElementById('sumiBubble');
+    const closeBtn = document.getElementById('sumiBubbleClose');
+    if(!bubble) return;
+
+    const dismissed = sessionStorage.getItem('sumiBubbleDismissed') === '1';
+    if(!dismissed){
+      setTimeout(()=> bubble.classList.add('show'), 2200);
+      // Auto-hide after a bit so it doesn't linger forever
+      setTimeout(()=> bubble.classList.remove('show'), 12000);
+    }
+    closeBtn.addEventListener('click', (e)=>{
+      e.preventDefault(); e.stopPropagation();
+      bubble.classList.remove('show');
+      try{ sessionStorage.setItem('sumiBubbleDismissed', '1'); } catch(_){}
+    });
+  })();
+</script>
+
+<script>
+  // Mobile drawer toggle
+  (function(){
+    const btn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    const closeBtn = document.getElementById('drawerClose');
+    if(!btn || !drawer || !backdrop) return;
+
+    function setOpen(open){
+      drawer.classList.toggle('open', open);
+      backdrop.classList.toggle('open', open);
+      document.body.classList.toggle('drawer-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      drawer.setAttribute('aria-hidden', String(!open));
+      backdrop.setAttribute('aria-hidden', String(!open));
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const isOpen = drawer.classList.contains('open');
+      setOpen(!isOpen);
+    });
+    if(closeBtn){ closeBtn.addEventListener('click', ()=> setOpen(false)); }
+    backdrop.addEventListener('click', ()=> setOpen(false));
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && drawer.classList.contains('open')) setOpen(false);
+    });
+    // Close drawer if user taps a nav link (so navigation feels right)
+    drawer.querySelectorAll('.drawer-nav a').forEach(a => {
+      a.addEventListener('click', ()=> setOpen(false));
+    });
+  })();
+</script>
+
+</body>
+</html>

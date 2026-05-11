@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — Sumora Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sage:#A8B7B0;
+    --sage-light:#C2CFC8;
+    --sage-deep:#8AA197;
+    --paper:#FAFAF7;
+    --paper-2:#F4F3EE;
+    --ink:#0E1315;
+    --ink-soft:#3A4147;
+    --muted:#6B7378;
+    --line:rgba(14,19,21,0.10);
+    --line-soft:rgba(14,19,21,0.05);
+    --navy:#1E2A78;
+    --teal:#1EB89A;
+    --teal-glow:#3DDFB0;
+    --lime:#D9F255;
+    --lime-bright:#E5FF6E;
+    --display:'Inter', sans-serif;
+    --serif:'Instrument Serif', serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--sage);
+    color:var(--ink);
+    font-family:var(--display);
+    line-height:1.55;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode:multiply;
+  }
+  a{color:inherit; text-decoration:none;}
+
+  .page-wrap{
+    background: var(--sage);
+    padding: 60px 60px 40px;
+    position:relative; overflow:hidden;
+  }
+  .page-wrap::before, .page-wrap::after{
+    content:""; position:absolute;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:50%; pointer-events:none;
+  }
+  .page-wrap::before{ width:1100px; height:1100px; top:-300px; left:50%; transform:translateX(-50%);}
+  .page-wrap::after{ width:1500px; height:1500px; bottom:-700px; left:50%; transform:translateX(-50%);}
+
+  .card{
+    background: var(--paper);
+    border-radius: 24px; position:relative; overflow:hidden;
+    box-shadow: 0 30px 80px -30px rgba(14,19,21,0.18);
+  }
+
+  .topbar{
+    padding: 36px 56px;
+    display:grid; grid-template-columns: 1fr auto;
+    align-items:center; gap:40px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .brand{
+    font-family:var(--display); font-weight:700; font-size:26px; letter-spacing:-0.01em;
+    color:var(--ink); display:inline-flex; align-items:flex-start; gap:2px;
+    cursor:pointer; transition: opacity .25s;
+  }
+  .brand:hover{ opacity:0.7;}
+  .brand .reg{ font-size:11px; font-weight:500; margin-top:4px; color:var(--ink-soft);}
+  .brand-mark{ width:10px; height:10px; background:var(--lime); border-radius:50%; margin: 6px 4px 0 0;}
+  .topbar-right{ display:flex; justify-content:flex-end;}
+  .menu-btn{
+    width:40px; height:40px; display:flex; flex-direction:column; justify-content:center; align-items:center;
+    gap:5px; border-radius:50%; cursor:pointer; transition: background .25s;
+  }
+  .menu-btn:hover{ background: rgba(0,0,0,0.04);}
+  .menu-btn span{ width:18px; height:1.5px; background:var(--ink); border-radius:2px;}
+  @media (max-width:980px){
+    .topbar{padding:24px 28px; grid-template-columns: 1fr auto;}
+    .page-wrap{padding:24px 24px 16px;}
+  }
+
+  /* HEADER */
+  .page-hero{
+    padding: 80px 56px 50px;
+    display:grid; grid-template-columns: 1.5fr 1fr;
+    gap: 60px; align-items:end;
+  }
+  @media (max-width:900px){ .page-hero{grid-template-columns:1fr; gap:32px; padding: 56px 28px 40px;}}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:14px; font-weight:500;
+    color:var(--ink-soft); margin-bottom:24px;
+  }
+  .eyebrow::before{ content:""; width:5px; height:5px; background:var(--ink); border-radius:50%;}
+  .eyebrow .live{
+    width:7px; height:7px; background:var(--teal-glow); border-radius:50%;
+    box-shadow: 0 0 0 0 rgba(61,223,176,0.6);
+    animation: livePulse 2s ease-in-out infinite;
+  }
+  @keyframes livePulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(61,223,176,0.6);}
+    50%{ box-shadow: 0 0 0 8px rgba(61,223,176,0);}
+  }
+  h1.page-title{
+    font-family:var(--display); font-weight:400;
+    font-size: clamp(40px, 5.2vw, 80px);
+    line-height:1.05; letter-spacing:-0.025em; color:var(--ink);
+  }
+  h1.page-title em{ font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:-0.01em;}
+  .page-aside p{ font-size:16px; line-height:1.55; color:var(--ink-soft); max-width:380px;}
+
+  /* CHAT LAYOUT */
+  .chat-area{
+    padding: 0 56px 60px;
+    display:grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap:32px;
+  }
+  @media (max-width:980px){ .chat-area{grid-template-columns:1fr; padding: 0 28px 40px;}}
+
+  .chat-window{
+    background: var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:20px;
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    height: 620px;
+  }
+  .chat-header{
+    padding: 20px 24px;
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:14px;
+    background: var(--paper);
+  }
+  .chat-avatar{
+    width:38px; height:38px; border-radius:50%;
+    background: linear-gradient(135deg, var(--lime) 0%, var(--teal-glow) 100%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-style:italic; font-size:18px; color:var(--ink);
+    position:relative;
+  }
+  .chat-avatar::after{
+    content:""; position:absolute; bottom:-1px; right:-1px;
+    width:11px; height:11px; background:var(--teal); border-radius:50%;
+    border: 2px solid var(--paper);
+  }
+  .chat-info h3{
+    font-size:16px; font-weight:500; letter-spacing:-0.005em;
+  }
+  .chat-info h3 em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .chat-info .status{
+    font-size:12px; color:var(--muted);
+    display:flex; align-items:center; gap:6px;
+  }
+  .chat-info .status::before{
+    content:""; width:5px; height:5px; background:var(--teal); border-radius:50%;
+  }
+
+  .chat-messages{
+    flex:1; overflow-y:auto;
+    padding: 24px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .chat-messages::-webkit-scrollbar{ width:6px;}
+  .chat-messages::-webkit-scrollbar-thumb{ background: var(--line); border-radius:3px;}
+
+  .msg{
+    max-width: 80%;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    animation: msgIn .3s ease;
+  }
+  @keyframes msgIn{
+    from{ opacity:0; transform: translateY(8px);}
+    to{ opacity:1; transform: translateY(0);}
+  }
+  .msg.bot{
+    background: var(--paper);
+    color: var(--ink);
+    align-self: flex-start;
+    border: 1px solid var(--line);
+    border-bottom-left-radius: 4px;
+  }
+  .msg.user{
+    background: var(--ink);
+    color: var(--paper);
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+  .msg.bot em{ font-family:var(--serif); font-style:italic;}
+  .msg p{ margin-bottom:8px;}
+  .msg p:last-child{ margin-bottom:0;}
+  .msg ul, .msg ol{ padding-left: 20px; margin: 6px 0;}
+  .msg li{ margin-bottom: 4px;}
+  .msg strong{ font-weight:600;}
+  .msg a{ text-decoration: underline; text-underline-offset: 2px;}
+
+  .typing{
+    display:inline-flex; gap:4px; align-items:center;
+    padding: 14px 16px;
+  }
+  .typing span{
+    width:6px; height:6px; border-radius:50%;
+    background: var(--ink-soft);
+    animation: typingDot 1.4s ease-in-out infinite;
+  }
+  .typing span:nth-child(2){ animation-delay: .2s;}
+  .typing span:nth-child(3){ animation-delay: .4s;}
+  @keyframes typingDot{
+    0%,60%,100%{ opacity: 0.3; transform: translateY(0);}
+    30%{ opacity:1; transform: translateY(-3px);}
+  }
+
+  .chat-suggestions{
+    padding: 12px 24px 0;
+    display:flex; gap:8px; flex-wrap:wrap;
+    border-top:1px solid var(--line);
+    background: var(--paper);
+  }
+  .suggestion{
+    padding: 8px 14px;
+    background: var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:100px;
+    font-size:12.5px; color:var(--ink-soft);
+    cursor:pointer; transition: all .25s;
+    font-weight:500;
+  }
+  .suggestion:hover{ background: var(--sage-light); color:var(--ink); border-color: var(--sage-light);}
+
+  .chat-input-row{
+    padding: 16px 24px 20px;
+    background: var(--paper);
+    display:flex; gap:10px; align-items:flex-end;
+  }
+  .chat-input{
+    flex:1;
+    border: 1px solid var(--line);
+    background: var(--paper-2);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-family: var(--display);
+    font-size:14.5px;
+    color: var(--ink);
+    resize:none;
+    max-height:120px;
+    line-height:1.5;
+    outline:none;
+    transition: border-color .25s;
+  }
+  .chat-input:focus{ border-color: var(--ink);}
+  .chat-input::placeholder{ color: var(--muted);}
+  .send-btn{
+    width:44px; height:44px;
+    border-radius:50%;
+    background: var(--lime);
+    color: var(--ink);
+    border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition: all .25s;
+    flex-shrink:0;
+  }
+  .send-btn:hover:not(:disabled){ background: var(--lime-bright); transform:translateY(-1px);}
+  .send-btn:disabled{ opacity: 0.4; cursor: not-allowed;}
+  .send-btn svg{ width:16px; height:16px;}
+
+  /* Sidebar - other ways to reach */
+  .other-ways{
+    display:flex; flex-direction:column; gap: 16px;
+  }
+  .way{
+    background: var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding: 24px;
+    transition: all .3s;
+    display:block;
+  }
+  .way:hover{
+    transform: translateY(-2px);
+    border-color: rgba(14,19,21,0.2);
+    box-shadow: 0 16px 40px -16px rgba(14,19,21,0.12);
+  }
+  .way .way-icon{
+    width:38px; height:38px;
+    background: var(--paper); border:1px solid var(--line); border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px;
+  }
+  .way .way-icon svg{ width:16px; height:16px; color: var(--ink-soft);}
+  .way h4{ font-size:15px; font-weight:500; margin-bottom:4px; letter-spacing:-0.005em;}
+  .way h4 em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .way p{ font-size:13px; color: var(--ink-soft); line-height:1.5; margin-bottom:10px;}
+  .way .target{
+    font-size:13px; color: var(--ink); font-weight:500;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .way:hover .target{ text-decoration: underline; text-underline-offset:2px;}
+  .way .target .arr{ font-size:12px;}
+
+  .where-block{
+    background: var(--ink); color:var(--paper);
+    border-radius:16px; padding:24px;
+  }
+  .where-block h4{ font-size:14px; font-weight:500; color: var(--lime); margin-bottom:12px; letter-spacing:0.04em; text-transform:uppercase;}
+  .where-block .addr{
+    font-size:14px; line-height:1.6;
+  }
+  .where-block .addr em{ font-family:var(--serif); font-style:italic; color:var(--lime);}
+  .where-block .hours{
+    margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.1);
+    font-size:12px; color: rgba(255,255,255,0.6); font-family: var(--mono); letter-spacing:0.05em;
+  }
+
+  .foot{
+    padding: 32px 56px;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:12px; color:var(--muted);
+    flex-wrap:wrap; gap:16px;
+  }
+  @media (max-width:700px){.foot{padding:24px 28px;}}
+  .foot a{ color:var(--ink-soft); margin-left:18px;}
+  .foot a:hover{ color:var(--ink);}
+
+  /* Disclaimer (small) */
+  .disclaimer{
+    font-size:11px; color: var(--muted); text-align:center;
+    padding: 0 24px 8px;
+    background: var(--paper);
+    font-family:var(--mono); letter-spacing:0.03em;
+  }
+
+  /* ============ DRAWER (mobile) ============ */
+  .menu-btn{
+    width:40px; height:40px;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    gap:5px;
+    border-radius:50%;
+    border: none; background: transparent;
+    padding: 0;
+    cursor:pointer;
+    transition: background .25s;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-btn:hover{ background: rgba(0,0,0,0.04);}
+  .menu-btn:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px;}
+  .menu-btn span{
+    width:18px; height:1.5px; background:var(--ink); border-radius:2px;
+    transition: transform .3s ease, opacity .25s ease;
+    display:block;
+  }
+  body.drawer-open .menu-btn span:nth-child(1){ transform: translateY(3.25px) rotate(45deg);}
+  body.drawer-open .menu-btn span:nth-child(2){ transform: translateY(-3.25px) rotate(-45deg);}
+
+  .drawer-backdrop{
+    position: fixed; inset: 0;
+    background: rgba(14,19,21,0.50);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    z-index: 998; opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .drawer-backdrop.open{ opacity: 1; pointer-events: auto;}
+  .drawer{
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(360px, 88vw);
+    background: var(--paper); color: var(--ink);
+    z-index: 999;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    display: flex; flex-direction: column;
+    box-shadow: -16px 0 40px -12px rgba(14,19,21,0.25);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .drawer.open{ transform: translateX(0);}
+  .drawer-inner{
+    display: flex; flex-direction: column;
+    min-height: 100%;
+    padding: 28px 32px 32px;
+  }
+  .drawer-head{
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 36px;
+  }
+  .drawer-eyebrow{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .drawer-close{
+    width:36px; height:36px;
+    border: 1px solid var(--line);
+    background: transparent; border-radius: 50%;
+    position: relative; cursor: pointer; padding: 0;
+    font-family: inherit; -webkit-tap-highlight-color: transparent;
+    transition: background .2s, border-color .2s;
+  }
+  .drawer-close:hover{ background: rgba(0,0,0,0.04); border-color: var(--ink);}
+  .drawer-close span{
+    position: absolute; top: 50%; left: 50%;
+    width: 14px; height: 1.5px;
+    background: var(--ink); border-radius: 1px;
+    display: block;
+  }
+  .drawer-close span:nth-child(1){ transform: translate(-50%,-50%) rotate(45deg);}
+  .drawer-close span:nth-child(2){ transform: translate(-50%,-50%) rotate(-45deg);}
+
+  .drawer-nav{ display: flex; flex-direction: column; flex: 1;}
+  .drawer-nav a{
+    display: block;
+    font-family: var(--display); font-weight: 500;
+    font-size: 26px; line-height: 1.2; letter-spacing: -0.018em;
+    color: var(--ink);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+    text-decoration: none;
+    transition: color .25s, padding-left .25s;
+  }
+  .drawer-nav a:last-child{ border-bottom: none;}
+  .drawer-nav a:hover{ color: var(--teal); padding-left: 6px;}
+  .drawer-nav a em{
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    color: var(--teal);
+  }
+  .drawer-nav a sup{
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); font-weight: 400;
+    margin-left: 4px; vertical-align: super;
+  }
+  .drawer-nav a .arr{ color: var(--muted); margin-left: 6px;}
+
+  .drawer-foot{
+    margin-top: 32px; padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .drawer-email{
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+    color: var(--ink); text-decoration: none;
+    transition: color .2s;
+  }
+  .drawer-email:hover{ color: var(--teal);}
+  .drawer-addr{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  body.drawer-open{ overflow: hidden;}
+
+  /* ============ SITE FOOTER (consistent across inner pages) ============ */
+  .site-footer{
+    background: var(--ink); color: var(--paper);
+    padding: 72px 40px 32px;
+    margin-top: 80px;
+  }
+  .site-footer-inner{
+    max-width: 1280px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  @media (max-width: 900px){
+    .site-footer{ padding: 56px 24px 28px;}
+    .site-footer-inner{ grid-template-columns: 1fr 1fr; gap: 36px;}
+  }
+  .sf-brand .brand{ color: var(--paper); margin-bottom: 18px; display: inline-flex; align-items: center; gap: 8px;}
+  .sf-brand .brand .reg{ color: rgba(255,255,255,0.6); font-size: 11px;}
+  .sf-brand p{ font-size: 13px; color: rgba(244,241,234,0.65); max-width: 300px; line-height: 1.6;}
+  .sf-brand .loc{ margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--lime);}
+  .sf-col h4{
+    font-family: var(--display); font-size: 13px; font-weight: 500;
+    color: var(--lime); margin-bottom: 18px;
+  }
+  .sf-col ul{ list-style: none; display: flex; flex-direction: column; gap: 10px; padding: 0; margin: 0;}
+  .sf-col a{
+    font-size: 13px; color: rgba(244,241,234,0.75);
+    text-decoration: none; transition: color .25s;
+  }
+  .sf-col a:hover{ color: var(--paper);}
+  .sf-col a.active{ color: var(--lime);}
+  .site-footer-bottom{
+    max-width: 1280px; margin: 60px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--display); font-size: 12px;
+    color: rgba(244,241,234,0.5);
+    flex-wrap: wrap; gap: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+  <div class="card">
+
+    <div class="topbar">
+      <a href="index.html" class="brand"><span class="brand-mark"></span>sumora<span class="reg">®</span></a>
+      <div class="topbar-right"><button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false" type="button"><span></span><span></span></button></div>
+    </div>
+
+<!-- Mobile drawer -->
+<div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+<aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-labelledby="drawerLabel">
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <span class="drawer-eyebrow" id="drawerLabel">// MENU</span>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu" type="button">
+        <span></span><span></span>
+      </button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="index.html">Home</a>
+      <a href="technology.html">Technology</a>
+      <a href="index.html#solutions">Solutions <sup>(4)</sup></a>
+      <a href="signals.html">Signals</a>
+      <a href="about.html">About</a>
+      <a href="careers.html">Careers <sup>(7)</sup></a>
+      <a href="contact.html"><em>Contact</em></a>
+    </nav>
+    <div class="drawer-foot">
+      <a href="mailto:hello@sumorahealth.com" class="drawer-email">hello@sumorahealth.com</a>
+      <span class="drawer-addr">Downtown Dubai · UAE</span>
+    </div>
+  </div>
+</aside>
+
+    <section class="page-hero">
+      <div>
+        <div class="eyebrow"><span class="live" style="background:var(--teal-glow);"></span>Live · powered by AI</div>
+        <h1 class="page-title">Meet <em>Sumi</em>.<br>Our AI <em>concierge</em>.</h1>
+      </div>
+      <div class="page-aside">
+        <p>Ask anything about our products, the platform, pilots, or careers. Sumi can answer in seconds and route you to a human when it makes sense.</p>
+      </div>
+    </section>
+
+    <div class="chat-area">
+
+      <!-- Chat window -->
+      <div class="chat-window">
+        <div class="chat-header">
+          <div class="chat-avatar">S</div>
+          <div class="chat-info">
+            <h3>Chat with <em>Sumi</em></h3>
+            <div class="status">Online · usually replies instantly</div>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="messages">
+          <div class="msg bot">
+            <p>Hello — I'm <em>Sumi</em>, Sumora Health's AI assistant. I can answer questions about our four products, the platform, pilots, careers, or anything else about the company.</p>
+            <p>What brings you here today?</p>
+          </div>
+        </div>
+
+        <div class="chat-suggestions" id="suggestions">
+          <div class="suggestion" data-prompt="Tell me about Barnard, your diagnostic AI.">About Barnard</div>
+          <div class="suggestion" data-prompt="How does VRx detect counterfeit medicines?">How VRx works</div>
+          <div class="suggestion" data-prompt="I'd like to discuss a pilot for my hospital.">Discuss a pilot</div>
+          <div class="suggestion" data-prompt="What roles are open at Sumora?">Open roles</div>
+        </div>
+
+        <div class="disclaimer">Sumi is an AI assistant. For clinical or urgent matters, please contact a healthcare professional directly.</div>
+
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="input" rows="1" placeholder="Ask Sumi anything about Sumora..."></textarea>
+          <button class="send-btn" id="send" aria-label="Send">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12 H19 M13 6 L19 12 L13 18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Other ways to reach us -->
+      <div class="other-ways">
+
+        <a href="mailto:hello@sumora.health" class="way">
+          <div class="way-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8 L12 14 L21 8"/></svg>
+          </div>
+          <h4>Prefer <em>email?</em></h4>
+          <p>For pilots, partnerships, press or anything you'd rather put in writing.</p>
+          <span class="target">hello@sumora.health <span class="arr">→</span></span>
+        </a>
+
+        <a href="careers.html" class="way">
+          <div class="way-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21 C4 16 8 14 12 14 C16 14 20 16 20 21"/></svg>
+          </div>
+          <h4>Want to <em>join us?</em></h4>
+          <p>Seven roles open across engineering, clinical, design, and ops. We try to reply within two weeks.</p>
+          <span class="target">See open roles <span class="arr">→</span></span>
+        </a>
+
+        <a href="mailto:clinicians@sumora.health" class="way">
+          <div class="way-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 V21 M3 12 H21"/></svg>
+          </div>
+          <h4>You're a <em>clinician?</em></h4>
+          <p>Join the global advisory and shape what we ship. A few hours a month, paid, your specialty welcome.</p>
+          <span class="target">clinicians@sumora.health <span class="arr">→</span></span>
+        </a>
+
+        <div class="where-block">
+          <h4>Where to find us</h4>
+          <div class="addr">
+            <em>Sumora Health</em><br>
+            Dubai, United Arab Emirates<br>
+            Founded 2024
+          </div>
+          <div class="hours">MON–FRI · 09:00–18:00 GST · CHAT 24/7</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="foot">
+      <div>© 2026 Sumora Health · Dubai, UAE</div>
+      <div>
+        <a href="index.html">Home</a>
+        <a href="technology.html">Technology</a>
+        <a href="about.html">About</a>
+        <a href="signals.html">Signals</a>
+        <a href="careers.html">Careers</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const messagesEl = document.getElementById('messages');
+  const inputEl = document.getElementById('input');
+  const sendBtn = document.getElementById('send');
+  const suggestionsEl = document.getElementById('suggestions');
+
+  // Conversation history (sent to API each turn)
+  const history = [];
+
+  // System prompt — Sumi's personality and knowledge base
+  const systemPrompt = `You are Sumi, the AI concierge for Sumora Health, an AI-native healthcare technology company based in Dubai, UAE (founded 2024). You answer questions warmly, briefly, and accurately, with a calm, intelligent tone. You use occasional italic emphasis (with <em>...</em>) on key words for typographic warmth — especially product names — but don't overdo it.
+
+ABOUT SUMORA HEALTH:
+- Mission: Make world-class healthcare economical and accessible — for the patient in a city hospital, and for the patient three villages from the nearest road.
+- HQ: Dubai, UAE. Founded 2024.
+- Approach: AI-native medical products, built with practising physicians from multiple countries, all writing back to a single secure record the patient owns.
+
+THE FOUR PRODUCTS:
+1. <em>Barnard</em> — Clinical Co-Pilot / AI Assistant for Diagnosis. A reasoning engine that synthesises symptoms, history, labs, and imaging into a ranked differential diagnosis in seconds. Explains its reasoning, cites literature, learns each clinic's patterns.
+
+2. <em>VRx</em> — AI Counterfeit Medicine Detection. A mobile app that uses the phone camera to verify medicine packaging in real time — comparing holograms, print micro-features, and packaging against verified records from pharmaceutical manufacturers.
+
+3. <em>SERA</em> — Constant Patient Contact device. A wearable + bedside companion that streams vitals (heart rhythm, oxygen, blood pressure, glucose) to the patient's care team between visits. Turns "see you in six weeks" into continuous supervised recovery.
+
+4. <em>Bisma</em> — Self-Diagnosis & Triage Companion. A conversational triage agent for the patient. Asks the right questions in the right order, narrows down probable causes, and either guides self-care or hands a complete clinical brief to a human professional.
+
+THE PLATFORM (six layers):
+L01 Patient Identity (sovereign)
+L02 Encrypted Record (E2EE)
+L03 Provider Auth Layer (granular)
+L04 Sumora AI Models (clinical-grade)
+L05 Device & App SDK (open)
+L06 Clinician Network (global)
+
+The patient owns the record. Always. Designed against HIPAA, GDPR, and UAE DHA frameworks. Interoperable with HL7 and FHIR.
+
+CAREERS: 7 roles open across Engineering (Senior ML Engineer for clinical models, Full-Stack Engineer for the record platform, Mobile Engineer for VRx), Clinical (Clinical Lead for Barnard, Clinical Advisors part-time/global), Design (Product Designer), and Operations (Partnerships Lead). HQ Dubai with significant remote latitude. Email careers@sumora.health.
+
+CONTACT: hello@sumora.health for general/pilots/press. clinicians@sumora.health for the advisory. careers@sumora.health for hiring.
+
+GUIDELINES:
+- Be concise. 2–4 sentences for simple questions, slightly longer if the question warrants depth. Use bullet points only when listing.
+- Use <em>italics</em> on the four product names and occasional emphasis words. Use <strong>bold</strong> very sparingly.
+- If asked for medical advice, gently decline and recommend a healthcare professional. Sumi is not a clinician.
+- If you don't know something specific (e.g. exact pricing, deal terms, individual employee details), say so and suggest the right human contact.
+- Never invent specific names of partners, hospitals, or clinicians. Speak in general terms about the network.
+- For pilot conversations, gather: organisation type, country, which product(s) of interest, scale — then offer to route to hello@sumora.health.
+- For careers questions, recommend the careers page and careers@sumora.health.`;
+
+  function addMessage(role, content){
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.innerHTML = content;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  function addTyping(){
+    const div = document.createElement('div');
+    div.className = 'msg bot';
+    div.id = 'typing-indicator';
+    div.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
+    div.style.padding = '0';
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  function removeTyping(){
+    const t = document.getElementById('typing-indicator');
+    if(t) t.remove();
+  }
+
+  // Convert minimal markdown-ish formatting to safe HTML
+  function formatResponse(text){
+    // Escape any raw HTML except our explicit em/strong tags
+    let safe = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    // Restore <em>...</em> and <strong>...</strong>
+    safe = safe.replace(/&lt;em&gt;/g, '<em>').replace(/&lt;\/em&gt;/g, '</em>');
+    safe = safe.replace(/&lt;strong&gt;/g, '<strong>').replace(/&lt;\/strong&gt;/g, '</strong>');
+    // Convert markdown bold/italics
+    safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    safe = safe.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+    // Lists: lines starting with "- " become <ul><li>
+    const lines = safe.split('\n');
+    let html = '';
+    let inList = false;
+    for(const line of lines){
+      const trimmed = line.trim();
+      if(/^[-•]\s+/.test(trimmed)){
+        if(!inList){ html += '<ul>'; inList = true;}
+        html += `<li>${trimmed.replace(/^[-•]\s+/, '')}</li>`;
+      } else {
+        if(inList){ html += '</ul>'; inList = false;}
+        if(trimmed) html += `<p>${trimmed}</p>`;
+      }
+    }
+    if(inList) html += '</ul>';
+    return html;
+  }
+
+  async function sendMessage(text){
+    if(!text.trim()) return;
+
+    // Hide suggestions after first user message
+    if(history.length === 0) suggestionsEl.style.display = 'none';
+
+    addMessage('user', `<p>${text.replace(/</g,'&lt;')}</p>`);
+    history.push({ role: 'user', content: text });
+
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    sendBtn.disabled = true;
+
+    addTyping();
+
+    try{
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: systemPrompt,
+          messages: history
+        })
+      });
+
+      const data = await response.json();
+      removeTyping();
+
+      const reply = data.content
+        .filter(b => b.type === 'text')
+        .map(b => b.text)
+        .join('\n');
+
+      if(reply){
+        addMessage('bot', formatResponse(reply));
+        history.push({ role: 'assistant', content: reply });
+      } else {
+        addMessage('bot', `<p>I had trouble responding just now. You can email <a href="mailto:hello@sumora.health">hello@sumora.health</a> and a human will get back to you shortly.</p>`);
+      }
+    } catch(err){
+      removeTyping();
+      addMessage('bot', `<p>I'm having trouble connecting. Please try again, or reach us at <a href="mailto:hello@sumora.health">hello@sumora.health</a>.</p>`);
+      console.error(err);
+    } finally {
+      sendBtn.disabled = false;
+      inputEl.focus();
+    }
+  }
+
+  // Send button + Enter
+  sendBtn.addEventListener('click', ()=> sendMessage(inputEl.value));
+  inputEl.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' && !e.shiftKey){
+      e.preventDefault();
+      sendMessage(inputEl.value);
+    }
+  });
+
+  // Auto-resize textarea
+  inputEl.addEventListener('input', ()=>{
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+  });
+
+  // Suggestion chips
+  document.querySelectorAll('.suggestion').forEach(s=>{
+    s.addEventListener('click', ()=> sendMessage(s.dataset.prompt));
+  });
+</script>
+
+
+<!-- ===================== SITE FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="sf-brand">
+      <a href="index.html" class="brand"><span class="brand-mark" style="background:var(--lime);"></span>sumora<span class="reg">®</span></a>
+      <p>An AI healthcare company building intelligent systems for clinicians, patients, and the care that connects them.</p>
+      <div class="loc">DUBAI · UAE</div>
+    </div>
+    <div class="sf-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="index.html#solutions">Barnard</a></li>
+        <li><a href="index.html#solutions">VRx</a></li>
+        <li><a href="index.html#solutions">SERA</a></li>
+        <li><a href="index.html#solutions">Bisma</a></li>
+      </ul>
+    </div>
+    <div class="sf-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li><a href="signals.html">Signals</a></li>
+      </ul>
+    </div>
+    <div class="sf-col">
+      <h4>Trust</h4>
+      <ul>
+        <li><a href="technology.html#evaluation">Evaluation</a></li>
+        <li><a href="technology.html#limits">Limitations</a></li>
+        <li><a href="technology.html#references">References</a></li>
+        <li><a href="technology.html">Technology</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer-bottom">
+    <div>© 2026 Sumora Health · All rights reserved</div>
+    <div>Designed in Dubai · Trained on consented data</div>
+  </div>
+</footer>
+<script>
+  // Mobile drawer toggle
+  (function(){
+    const btn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    const closeBtn = document.getElementById('drawerClose');
+    if(!btn || !drawer || !backdrop) return;
+
+    function setOpen(open){
+      drawer.classList.toggle('open', open);
+      backdrop.classList.toggle('open', open);
+      document.body.classList.toggle('drawer-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      drawer.setAttribute('aria-hidden', String(!open));
+      backdrop.setAttribute('aria-hidden', String(!open));
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const isOpen = drawer.classList.contains('open');
+      setOpen(!isOpen);
+    });
+    if(closeBtn){ closeBtn.addEventListener('click', ()=> setOpen(false)); }
+    backdrop.addEventListener('click', ()=> setOpen(false));
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && drawer.classList.contains('open')) setOpen(false);
+    });
+    drawer.querySelectorAll('.drawer-nav a').forEach(a => {
+      a.addEventListener('click', ()=> setOpen(false));
+    });
+  })();
+</script>
+</body>
+</html>

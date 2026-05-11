@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Signals — Sumora Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sage:#A8B7B0; --sage-light:#C2CFC8; --sage-deep:#8AA197;
+    --paper:#FAFAF7; --paper-2:#F4F3EE;
+    --ink:#0E1315; --ink-soft:#3A4147; --muted:#6B7378;
+    --line:rgba(14,19,21,0.10); --line-soft:rgba(14,19,21,0.05);
+    --navy:#1E2A78; --teal:#1EB89A; --teal-glow:#3DDFB0;
+    --lime:#D9F255; --lime-bright:#E5FF6E;
+    --display:'Inter', sans-serif;
+    --serif:'Instrument Serif', serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--sage); color:var(--ink);
+    font-family:var(--display); line-height:1.55;
+    overflow-x:hidden; -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode:multiply;
+  }
+  a{color:inherit; text-decoration:none;}
+
+  .page-wrap{
+    background: var(--sage); padding: 60px 60px 40px;
+    position:relative; overflow:hidden;
+  }
+  .page-wrap::before, .page-wrap::after{
+    content:""; position:absolute;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:50%; pointer-events:none;
+  }
+  .page-wrap::before{ width:1100px; height:1100px; top:-300px; left:50%; transform:translateX(-50%);}
+  .page-wrap::after{ width:1500px; height:1500px; bottom:-700px; left:50%; transform:translateX(-50%);}
+  .card{
+    background: var(--paper); border-radius: 24px;
+    position:relative; overflow:hidden;
+    box-shadow: 0 30px 80px -30px rgba(14,19,21,0.18);
+  }
+
+  .topbar{
+    padding: 36px 56px;
+    display:grid; grid-template-columns: 1fr auto;
+    align-items:center; gap:40px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .brand{
+    font-family:var(--display); font-weight:700; font-size:26px; letter-spacing:-0.01em;
+    color:var(--ink); display:inline-flex; align-items:flex-start; gap:2px;
+    cursor:pointer; transition: opacity .25s;
+  }
+  .brand:hover{ opacity:0.7;}
+  .brand .reg{ font-size:11px; font-weight:500; margin-top:4px; color:var(--ink-soft);}
+  .brand-mark{ width:10px; height:10px; background:var(--lime); border-radius:50%; margin: 6px 4px 0 0;}
+  .topbar-right{ display:flex; justify-content:flex-end;}
+  .menu-btn{
+    width:40px; height:40px; display:flex; flex-direction:column; justify-content:center; align-items:center;
+    gap:5px; border-radius:50%; cursor:pointer; transition: background .25s;
+  }
+  .menu-btn:hover{ background: rgba(0,0,0,0.04);}
+  .menu-btn span{ width:18px; height:1.5px; background:var(--ink); border-radius:2px;}
+  @media (max-width:980px){
+    .topbar{padding:24px 28px; grid-template-columns: 1fr auto;}
+    .page-wrap{padding:24px 24px 16px;}
+  }
+
+  /* HERO */
+  .page-hero{
+    padding: 80px 56px 50px;
+    display:grid; grid-template-columns: 1.5fr 1fr;
+    gap: 60px; align-items:end;
+  }
+  @media (max-width:900px){ .page-hero{grid-template-columns:1fr; gap:32px; padding: 56px 28px 40px;}}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:14px; font-weight:500; color:var(--ink-soft); margin-bottom:24px;
+  }
+  .eyebrow::before{
+    content:""; width:7px; height:7px; background:var(--teal-glow); border-radius:50%;
+    box-shadow: 0 0 0 0 rgba(61,223,176,0.6);
+    animation: livePulse 2s ease-in-out infinite;
+  }
+  @keyframes livePulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(61,223,176,0.6);}
+    50%{ box-shadow: 0 0 0 8px rgba(61,223,176,0);}
+  }
+  h1.page-title{
+    font-family:var(--display); font-weight:400;
+    font-size: clamp(40px, 5.2vw, 80px);
+    line-height:1.05; letter-spacing:-0.025em; color:var(--ink);
+  }
+  h1.page-title em{ font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:-0.01em;}
+  .page-aside p{ font-size:16px; line-height:1.55; color:var(--ink-soft); max-width:380px;}
+
+  /* FILTER BAR */
+  .filter-bar{
+    padding: 0 56px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+    gap:20px; flex-wrap:wrap;
+  }
+  @media (max-width:900px){.filter-bar{padding: 0 28px 20px;}}
+  .filter-bar .filters{
+    display:flex; gap:8px; flex-wrap:wrap;
+  }
+  .chip{
+    padding: 8px 16px;
+    background: var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:100px;
+    font-size:12.5px; color:var(--ink-soft);
+    cursor:pointer; transition: all .25s;
+    font-weight:500;
+  }
+  .chip:hover{ background: var(--sage-light); color:var(--ink); border-color: var(--sage-light);}
+  .chip.active{ background: var(--ink); color:var(--paper); border-color: var(--ink);}
+  .filter-bar .feed-info{
+    font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.05em;
+  }
+  .filter-bar .feed-info strong{ color:var(--ink); font-weight:500;}
+
+  /* CONTENT */
+  .content{ padding: 0 56px 100px;}
+  @media (max-width:900px){.content{ padding: 0 28px 70px;}}
+
+  /* SIGNAL CARD */
+  .signal{
+    border-top:1px solid var(--line);
+    padding: 48px 0 56px;
+    display:grid; grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    align-items:start;
+    scroll-margin-top: 80px;
+  }
+  @media (max-width:900px){.signal{ grid-template-columns:1fr; gap:24px; padding: 36px 0 44px;}}
+
+  /* LEFT META COLUMN */
+  .signal-meta{
+    position:sticky; top:32px;
+  }
+  @media (max-width:900px){.signal-meta{ position:static;}}
+  .signal-meta .num{
+    font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.1em;
+    margin-bottom:18px;
+  }
+  .signal-meta .tag-row{
+    display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;
+  }
+  .signal-meta .tag{
+    padding: 4px 10px; border-radius:100px;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
+    background: var(--paper-2); border:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+  .signal-meta .tag.lime{ background: var(--lime); border-color:var(--lime); color:var(--ink);}
+  .signal-meta .tag.sage{ background: var(--sage-light); border-color: var(--sage-light); color:var(--ink);}
+  .signal-meta .date{
+    font-family:var(--mono); font-size:12px; color:var(--ink); letter-spacing:0.05em;
+    margin-bottom:18px;
+  }
+  .signal-meta .source{
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-size:13px; color:var(--ink-soft); line-height:1.55;
+  }
+  .signal-meta .source .label{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted); display:block; margin-bottom:4px;
+  }
+
+  /* RIGHT BODY */
+  .signal-body h2{
+    font-family:var(--display); font-weight:400;
+    font-size: clamp(26px, 3vw, 38px);
+    line-height:1.1; letter-spacing:-0.018em;
+    margin-bottom:18px;
+    color:var(--ink);
+  }
+  .signal-body h2 em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+
+  .signal-body .summary{
+    font-size: 17px; line-height:1.6;
+    color:var(--ink-soft);
+    padding-bottom:28px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:28px;
+  }
+
+  /* COMMENTARY BLOCK */
+  .commentary{
+    background: var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding: 32px;
+    margin-top: 8px;
+  }
+  .commentary .commenter{
+    display:flex; align-items:center; gap:14px;
+    margin-bottom:24px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .commentary .avatar{
+    width:42px; height:42px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-weight:500; font-size:14px;
+    color: var(--ink);
+    flex-shrink:0;
+  }
+  .avatar.a-warm{ background: linear-gradient(135deg, #DFB89A 0%, #B8855E 100%);}
+  .avatar.a-sage{ background: linear-gradient(135deg, #C2CFC8 0%, #8AA197 100%);}
+  .avatar.a-lime{ background: linear-gradient(135deg, #D9F255 0%, #B8D04A 100%);}
+  .avatar.a-teal{ background: linear-gradient(135deg, #3DDFB0 0%, #1EB89A 100%);}
+  .avatar.a-grey{ background: linear-gradient(135deg, #B8B8B0 0%, #6B6E68 100%); color:var(--paper);}
+  .commentary .commenter-info{ flex:1;}
+  .commentary .commenter-name{
+    font-family:var(--display); font-size:15px; font-weight:500; letter-spacing:-0.005em;
+    color: var(--ink);
+  }
+  .commentary .commenter-name em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .commentary .commenter-role{
+    font-size: 12.5px; color: var(--muted); margin-top:2px;
+  }
+  .commentary .commenter-quote{
+    margin-left:auto;
+    font-family:var(--serif); font-style:italic;
+    font-size:32px; color:var(--lime); line-height:1;
+    align-self:flex-start;
+  }
+
+  /* Four-lens grid */
+  .lenses{
+    display:grid; grid-template-columns: repeat(2, 1fr); gap:1px;
+    background: var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  @media (max-width:700px){.lenses{ grid-template-columns: 1fr;}}
+  .lens{
+    background: var(--paper);
+    padding: 22px 24px;
+  }
+  .lens .lens-label{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
+    color: var(--muted); margin-bottom:10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .lens .lens-label::before{
+    content:""; width:5px; height:5px; border-radius:50%;
+  }
+  .lens.lens-why .lens-label::before{ background: var(--lime);}
+  .lens.lens-future .lens-label::before{ background: var(--teal);}
+  .lens.lens-fail .lens-label::before{ background: #D97757;}
+  .lens.lens-impact .lens-label::before{ background: var(--navy);}
+  .lens p{
+    font-size: 14px; line-height:1.6; color: var(--ink-soft);
+  }
+  .lens p em{ font-family:var(--serif); font-style:italic; font-weight:400; color:var(--ink);}
+  .lens p strong{ font-weight:600; color:var(--ink);}
+
+  /* SUBSCRIBE STRIP */
+  .subscribe{
+    margin: 60px 0 0;
+    padding: 40px 48px;
+    background: var(--ink); color: var(--paper);
+    border-radius: 20px;
+    display:grid; grid-template-columns: 1fr 1fr;
+    gap: 48px; align-items: center;
+  }
+  @media (max-width:900px){.subscribe{ grid-template-columns:1fr; padding:32px 28px;}}
+  .subscribe h3{
+    font-family:var(--display); font-weight:400; font-size:30px;
+    letter-spacing:-0.018em; line-height:1.15;
+  }
+  .subscribe h3 em{ font-family:var(--serif); font-style:italic; color:var(--lime);}
+  .subscribe p{
+    color: rgba(244,241,234,0.7);
+    font-size:14px; margin-top:12px;
+  }
+  .subscribe-form{
+    display:flex; gap:8px; align-items:center;
+    background: rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:100px;
+    padding: 4px 4px 4px 18px;
+  }
+  .subscribe-form input{
+    flex:1; background:transparent; border:none; outline:none;
+    color: var(--paper);
+    font-family: var(--display); font-size: 14px;
+    padding: 12px 0;
+  }
+  .subscribe-form input::placeholder{ color: rgba(255,255,255,0.4);}
+  .subscribe-form button{
+    padding: 12px 22px; border-radius:100px;
+    background: var(--lime); color: var(--ink);
+    border:none; cursor:pointer;
+    font-family: var(--display); font-size:13px; font-weight:500;
+    letter-spacing: 0.03em;
+    transition: background .25s;
+  }
+  .subscribe-form button:hover{ background: var(--lime-bright);}
+  .subscribe .small{
+    font-family:var(--mono); font-size:11px; color: rgba(244,241,234,0.5); letter-spacing:0.05em;
+    margin-top:14px;
+  }
+
+  /* FOOTER */
+  .foot{
+    padding: 32px 56px;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:12px; color:var(--muted);
+    flex-wrap:wrap; gap:16px;
+  }
+  @media (max-width:700px){.foot{padding:24px 28px;}}
+  .foot a{ color:var(--ink-soft); margin-left:18px;}
+  .foot a:hover{ color:var(--ink);}
+
+  .reveal{ opacity:0; transform:translateY(30px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1);}
+  .reveal.in{ opacity:1; transform:translateY(0);}
+
+  /* ============ DRAWER (mobile) ============ */
+  .menu-btn{
+    width:40px; height:40px;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    gap:5px;
+    border-radius:50%;
+    border: none; background: transparent;
+    padding: 0;
+    cursor:pointer;
+    transition: background .25s;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-btn:hover{ background: rgba(0,0,0,0.04);}
+  .menu-btn:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px;}
+  .menu-btn span{
+    width:18px; height:1.5px; background:var(--ink); border-radius:2px;
+    transition: transform .3s ease, opacity .25s ease;
+    display:block;
+  }
+  body.drawer-open .menu-btn span:nth-child(1){ transform: translateY(3.25px) rotate(45deg);}
+  body.drawer-open .menu-btn span:nth-child(2){ transform: translateY(-3.25px) rotate(-45deg);}
+
+  .drawer-backdrop{
+    position: fixed; inset: 0;
+    background: rgba(14,19,21,0.50);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    z-index: 998; opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .drawer-backdrop.open{ opacity: 1; pointer-events: auto;}
+  .drawer{
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(360px, 88vw);
+    background: var(--paper); color: var(--ink);
+    z-index: 999;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    display: flex; flex-direction: column;
+    box-shadow: -16px 0 40px -12px rgba(14,19,21,0.25);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .drawer.open{ transform: translateX(0);}
+  .drawer-inner{
+    display: flex; flex-direction: column;
+    min-height: 100%;
+    padding: 28px 32px 32px;
+  }
+  .drawer-head{
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 36px;
+  }
+  .drawer-eyebrow{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .drawer-close{
+    width:36px; height:36px;
+    border: 1px solid var(--line);
+    background: transparent; border-radius: 50%;
+    position: relative; cursor: pointer; padding: 0;
+    font-family: inherit; -webkit-tap-highlight-color: transparent;
+    transition: background .2s, border-color .2s;
+  }
+  .drawer-close:hover{ background: rgba(0,0,0,0.04); border-color: var(--ink);}
+  .drawer-close span{
+    position: absolute; top: 50%; left: 50%;
+    width: 14px; height: 1.5px;
+    background: var(--ink); border-radius: 1px;
+    display: block;
+  }
+  .drawer-close span:nth-child(1){ transform: translate(-50%,-50%) rotate(45deg);}
+  .drawer-close span:nth-child(2){ transform: translate(-50%,-50%) rotate(-45deg);}
+
+  .drawer-nav{ display: flex; flex-direction: column; flex: 1;}
+  .drawer-nav a{
+    display: block;
+    font-family: var(--display); font-weight: 500;
+    font-size: 26px; line-height: 1.2; letter-spacing: -0.018em;
+    color: var(--ink);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+    text-decoration: none;
+    transition: color .25s, padding-left .25s;
+  }
+  .drawer-nav a:last-child{ border-bottom: none;}
+  .drawer-nav a:hover{ color: var(--teal); padding-left: 6px;}
+  .drawer-nav a em{
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    color: var(--teal);
+  }
+  .drawer-nav a sup{
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); font-weight: 400;
+    margin-left: 4px; vertical-align: super;
+  }
+  .drawer-nav a .arr{ color: var(--muted); margin-left: 6px;}
+
+  .drawer-foot{
+    margin-top: 32px; padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .drawer-email{
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+    color: var(--ink); text-decoration: none;
+    transition: color .2s;
+  }
+  .drawer-email:hover{ color: var(--teal);}
+  .drawer-addr{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  body.drawer-open{ overflow: hidden;}
+
+  /* ============ SITE FOOTER (consistent across inner pages) ============ */
+  .site-footer{
+    background: var(--ink); color: var(--paper);
+    padding: 72px 40px 32px;
+    margin-top: 80px;
+  }
+  .site-footer-inner{
+    max-width: 1280px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  @media (max-width: 900px){
+    .site-footer{ padding: 56px 24px 28px;}
+    .site-footer-inner{ grid-template-columns: 1fr 1fr; gap: 36px;}
+  }
+  .sf-brand .brand{ color: var(--paper); margin-bottom: 18px; display: inline-flex; align-items: center; gap: 8px;}
+  .sf-brand .brand .reg{ color: rgba(255,255,255,0.6); font-size: 11px;}
+  .sf-brand p{ font-size: 13px; color: rgba(244,241,234,0.65); max-width: 300px; line-height: 1.6;}
+  .sf-brand .loc{ margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--lime);}
+  .sf-col h4{
+    font-family: var(--display); font-size: 13px; font-weight: 500;
+    color: var(--lime); margin-bottom: 18px;
+  }
+  .sf-col ul{ list-style: none; display: flex; flex-direction: column; gap: 10px; padding: 0; margin: 0;}
+  .sf-col a{
+    font-size: 13px; color: rgba(244,241,234,0.75);
+    text-decoration: none; transition: color .25s;
+  }
+  .sf-col a:hover{ color: var(--paper);}
+  .sf-col a.active{ color: var(--lime);}
+  .site-footer-bottom{
+    max-width: 1280px; margin: 60px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--display); font-size: 12px;
+    color: rgba(244,241,234,0.5);
+    flex-wrap: wrap; gap: 16px;
+  }
+  /* ============ DEVELOPMENTS TIMELINE ============ */
+  .developments{
+    margin: 24px 0 64px;
+    padding: 56px 56px 48px;
+    background: var(--paper);
+    border-radius: 24px;
+    box-shadow: 0 16px 40px -20px rgba(14,19,21,0.12);
+  }
+  .dev-header{ margin-bottom: 40px; max-width: 720px;}
+  .dev-eyebrow{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--teal); font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .dev-title{
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(28px, 3.4vw, 44px);
+    line-height: 1.05; letter-spacing: -0.025em;
+    color: var(--ink); margin: 0 0 16px;
+  }
+  .dev-title em{
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    letter-spacing: -0.01em; color: var(--ink);
+  }
+  .dev-lead{
+    font-size: 15.5px; line-height: 1.6;
+    color: var(--ink-soft); margin: 0 0 24px;
+    max-width: 640px;
+  }
+  .dev-legend{
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .dev-leg{
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 5px 10px; border-radius: 100px;
+    background: var(--paper-2);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
+    color: var(--ink-soft); text-transform: uppercase;
+  }
+  .dot{
+    display: inline-block; width: 7px; height: 7px; border-radius: 2px;
+  }
+  .d-reg  { background: #1E2A78;}   /* navy — regulatory */
+  .d-mod  { background: #1EB89A;}   /* teal — foundation models */
+  .d-drug { background: #7A9472;}   /* sage-green — drug discovery */
+  .d-dev  { background: #C77B4F;}   /* terracotta — devices */
+  .d-clin { background: #D85A30;}   /* coral — clinical deployment */
+  .d-comm { background: #5F5E5A;}   /* charcoal — commercial */
+
+  .dev-rail{
+    position: relative;
+    padding-left: 0;
+  }
+  .dev-year{
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
+    color: var(--ink); font-weight: 500;
+    margin: 36px 0 8px;
+    padding: 8px 0 10px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .dev-year:first-child{ margin-top: 0;}
+
+  .dev-entry{
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 28px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .dev-entry:last-child{ border-bottom: none;}
+  .dev-date{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em;
+    color: var(--muted); font-weight: 500;
+    padding-top: 4px;
+  }
+  .dev-body{
+    display: flex; flex-direction: column; gap: 6px;
+    max-width: 700px;
+  }
+  .dev-cat{
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+    color: var(--ink-soft); text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .dev-h{
+    font-family: var(--display); font-weight: 500;
+    font-size: 17px; line-height: 1.3; letter-spacing: -0.012em;
+    color: var(--ink); margin: 0;
+  }
+  .dev-p{
+    font-size: 14px; line-height: 1.55;
+    color: var(--ink-soft); margin: 4px 0 0;
+  }
+  .dev-link{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+    color: var(--teal); text-decoration: none;
+    margin-left: 6px; white-space: nowrap;
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  .dev-link:hover{ border-bottom-color: var(--teal);}
+
+  .dev-foot{
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: 220px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .dev-foot-label{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em;
+    color: var(--teal); font-weight: 500; text-transform: uppercase;
+  }
+  .dev-foot p{
+    font-size: 15px; line-height: 1.55;
+    color: var(--ink-soft); margin: 0;
+  }
+
+  @media (max-width: 720px){
+    .developments{ padding: 36px 24px 32px;}
+    .dev-entry{ grid-template-columns: 1fr; gap: 6px;}
+    .dev-date{ padding-top: 0;}
+    .dev-foot{ grid-template-columns: 1fr; gap: 12px;}
+  }
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+  <div class="card">
+
+    <div class="topbar">
+      <a href="index.html" class="brand"><span class="brand-mark"></span>sumora<span class="reg">®</span></a>
+      <div class="topbar-right"><button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false" type="button"><span></span><span></span></button></div>
+    </div>
+
+<!-- Mobile drawer -->
+<div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+<aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-labelledby="drawerLabel">
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <span class="drawer-eyebrow" id="drawerLabel">// MENU</span>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu" type="button">
+        <span></span><span></span>
+      </button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="index.html">Home</a>
+      <a href="technology.html">Technology</a>
+      <a href="index.html#solutions">Solutions <sup>(4)</sup></a>
+      <a href="signals.html"><em>Signals</em></a>
+      <a href="about.html">About</a>
+      <a href="careers.html">Careers <sup>(7)</sup></a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="drawer-foot">
+      <a href="mailto:hello@sumorahealth.com" class="drawer-email">hello@sumorahealth.com</a>
+      <span class="drawer-addr">Downtown Dubai · UAE</span>
+    </div>
+  </div>
+</aside>
+
+    <section class="page-hero">
+      <div>
+        <div class="eyebrow">Live · updated weekly</div>
+        <h1 class="page-title">Signals.<br>What's <em>moving</em> in AI healthcare — and what it <em>actually</em> means.</h1>
+      </div>
+      <div class="page-aside">
+        <p>A short editorial feed: each week, a few stories from the field, with the Sumora team's read on why each one matters, where it could fail, and what it means for the patient.</p>
+      </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <div class="filters">
+        <div class="chip active" data-filter="all">All signals</div>
+        <div class="chip" data-filter="diagnostics">Diagnostics</div>
+        <div class="chip" data-filter="regulation">Regulation</div>
+        <div class="chip" data-filter="patient">Patient-facing</div>
+        <div class="chip" data-filter="research">Research</div>
+        <div class="chip" data-filter="ethics">Ethics</div>
+      </div>
+      <div class="feed-info">
+        <strong>Issue 04</strong> · Week of <strong>05 May 2026</strong>
+      </div>
+    </div>
+
+    <!-- DEVELOPMENTS TIMELINE -->
+    <section class="developments reveal">
+      <header class="dev-header">
+        <div class="dev-eyebrow">// DEVELOPMENTS · 2024 → 2026</div>
+        <h2 class="dev-title">The bigger picture, in <em>dates</em>.</h2>
+        <p class="dev-lead">Before the weekly read below: a year-and-a-half of major moves across AI healthcare — regulation, foundation models, drug discovery, devices, deployment, and capital. Selective, not exhaustive. We update this list as the field moves.</p>
+
+        <div class="dev-legend">
+          <span class="dev-leg"><span class="dot d-reg"></span>Regulatory</span>
+          <span class="dev-leg"><span class="dot d-mod"></span>Foundation models</span>
+          <span class="dev-leg"><span class="dot d-drug"></span>Drug discovery</span>
+          <span class="dev-leg"><span class="dot d-dev"></span>Devices &amp; diagnostics</span>
+          <span class="dev-leg"><span class="dot d-clin"></span>Clinical deployment</span>
+          <span class="dev-leg"><span class="dot d-comm"></span>Commercial</span>
+        </div>
+      </header>
+
+      <div class="dev-rail">
+
+        <div class="dev-year">2024</div>
+
+        <div class="dev-entry">
+          <div class="dev-date">JAN 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-reg"></span><span>Regulatory</span></div>
+            <h3 class="dev-h">WHO publishes guidance on multimodal AI in healthcare.</h3>
+            <p class="dev-p">The World Health Organization releases its first formal guidance on Large Multi-modal Models, setting expectations for safety, transparency, and regulatory readiness in clinical use.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">JAN 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-dev"></span><span>Devices &amp; diagnostics</span></div>
+            <h3 class="dev-h">FDA authorises DermaSensor for primary care.</h3>
+            <p class="dev-p">First AI-powered handheld skin-cancer detection device cleared for use by primary-care physicians in the US — AI diagnostics move beyond specialist settings.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">MAR 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-reg"></span><span>Regulatory</span></div>
+            <h3 class="dev-h">The EU AI Act passes the European Parliament.</h3>
+            <p class="dev-p">Medical AI is classified as high-risk under the Act, triggering future requirements around transparency, data quality, human oversight, and conformity assessment. <a href="#signal-02" class="dev-link">→ See Signal 02</a></p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">MAY 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-drug"></span><span>Drug discovery</span></div>
+            <h3 class="dev-h">DeepMind releases AlphaFold 3.</h3>
+            <p class="dev-p">Co-published with Isomorphic Labs, extends structure prediction from proteins alone to ligands, DNA, RNA, and ions. A step-change for computational drug discovery.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">JUN 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-comm"></span><span>Commercial</span></div>
+            <h3 class="dev-h">Tempus AI lists on Nasdaq.</h3>
+            <p class="dev-p">One of the largest AI-driven precision-medicine companies goes public, signalling investor appetite for clinical-data plus AI plays at scale.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">JUN 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-mod"></span><span>Foundation models</span></div>
+            <h3 class="dev-h">OpenAI partners with Color Health.</h3>
+            <p class="dev-p">A high-profile early collaboration applying GPT-class models to cancer-treatment planning workflows — foundation models moving into specific clinical pathways.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">Q3 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-clin"></span><span>Clinical deployment</span></div>
+            <h3 class="dev-h">Ambient AI scribes reach mass adoption.</h3>
+            <p class="dev-p">Abridge, Microsoft DAX Copilot, Suki, and Augmedix become standard at major US health systems through 2024. The first category of generative AI to land at clinical scale.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">AUG 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-comm"></span><span>Commercial</span></div>
+            <h3 class="dev-h">Recursion and Exscientia announce merger.</h3>
+            <p class="dev-p">The largest consolidation in AI drug discovery to date — combining cellular-imaging pipelines with structure-based design under one roof.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">LATE 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-reg"></span><span>Regulatory</span></div>
+            <h3 class="dev-h">FDA's AI/ML device list crosses ~1,000 authorisations.</h3>
+            <p class="dev-p">Cumulative FDA-cleared AI/ML-enabled medical devices passes the thousand mark — most are radiology, but cardiology, pathology, and ophthalmology are now well-represented.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">LATE 2024</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-mod"></span><span>Foundation models</span></div>
+            <h3 class="dev-h">Hippocratic AI's safety-focused agents enter pilots.</h3>
+            <p class="dev-p">Healthcare-specific LLM agents pitched as safety-first alternatives to general models begin large-scale pilots with US health systems, focused on non-diagnostic patient touchpoints.</p>
+          </div>
+        </div>
+
+        <div class="dev-year">2025</div>
+
+        <div class="dev-entry">
+          <div class="dev-date">H1 2025</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-clin"></span><span>Clinical deployment</span></div>
+            <h3 class="dev-h">Epic deepens Abridge integration into the EMR.</h3>
+            <p class="dev-p">Ambient AI documentation becomes a native EMR workflow for tens of thousands of US clinicians — the first time generative AI is built into the system of record at scale.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">2025</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-mod"></span><span>Foundation models</span></div>
+            <h3 class="dev-h">Pathology foundation models reach commercial scale.</h3>
+            <p class="dev-p">Paige, Owkin, and others reach clinical-grade deployments — large pretrained models for whole-slide images move from research papers to active cancer-diagnostics pipelines. <a href="#signal-01" class="dev-link">→ See Signal 01</a></p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">2025</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-reg"></span><span>Regulatory</span></div>
+            <h3 class="dev-h">FDA sharpens its stance on generative medical advice.</h3>
+            <p class="dev-p">Increased regulatory attention to chatbots offering clinical advice — first warning letters and explicit guidance on when an AI tool crosses into medical-device territory.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">2025</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-drug"></span><span>Drug discovery</span></div>
+            <h3 class="dev-h">More AI-designed candidates enter clinical trials.</h3>
+            <p class="dev-p">Pipelines from Insilico Medicine, Isomorphic Labs, and post-merger Recursion progress further into human trials — early evidence on whether AI-discovered drugs translate.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">2025</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-comm"></span><span>Commercial</span></div>
+            <h3 class="dev-h">NVIDIA BioNeMo partnerships keep expanding.</h3>
+            <p class="dev-p">Continued growth of the BioNeMo platform with new pharma and biotech partners — NVIDIA consolidates its position as the infrastructure layer under the AI-biology stack.</p>
+          </div>
+        </div>
+
+        <div class="dev-entry">
+          <div class="dev-date">H2 2025</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-reg"></span><span>Regulatory</span></div>
+            <h3 class="dev-h">AI-bias studies start moving regulatory needles.</h3>
+            <p class="dev-p">Several high-profile studies on algorithmic bias in clinical decision support translate into concrete regulator expectations around equity testing and post-market surveillance. <a href="#signal-05" class="dev-link">→ See Signal 05</a></p>
+          </div>
+        </div>
+
+        <div class="dev-year">2026</div>
+
+        <div class="dev-entry">
+          <div class="dev-date">JAN 2026</div>
+          <div class="dev-body">
+            <div class="dev-cat"><span class="dot d-reg"></span><span>Regulatory</span></div>
+            <h3 class="dev-h">EU AI Act high-risk provisions begin phased application.</h3>
+            <p class="dev-p">Provisions of the AI Act covering high-risk systems (including medical AI) move into their compliance window, putting pressure on EU-market medical AI vendors to formalise documentation and oversight.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="dev-foot">
+        <span class="dev-foot-label">// READING THIS WEEK</span>
+        <p>Five signals below take a closer look at the moments above — what they mean, where they could fail, and what they imply for the patient.</p>
+      </div>
+    </section>
+
+    <div class="content">
+
+      <!-- SIGNAL 1 -->
+      <article class="signal reveal" data-cat="diagnostics" id="signal-01">
+        <div class="signal-meta">
+          <div class="num">/ Signal 01</div>
+          <div class="tag-row">
+            <span class="tag lime">Diagnostics</span>
+            <span class="tag">Imaging</span>
+          </div>
+          <div class="date">06 MAY 2026</div>
+          <div class="source">
+            <span class="label">// Reading from</span>
+            Multiple peer-reviewed publications on multimodal foundation models in radiology and pathology
+          </div>
+        </div>
+        <div class="signal-body">
+          <h2>A new generation of <em>multimodal</em> foundation models in medical imaging.</h2>
+          <p class="summary">Several research groups have published large-scale models trained jointly on radiology images, pathology slides, and the clinical notes that accompany them. The headline result: a single model performs creditably across tasks that previously needed dedicated specialist systems.</p>
+
+          <div class="commentary">
+            <div class="commenter">
+              <div class="avatar a-sage">DR</div>
+              <div class="commenter-info">
+                <div class="commenter-name">Dr. Reem A. <em>(placeholder)</em></div>
+                <div class="commenter-role">Clinical Lead — Imaging</div>
+              </div>
+              <div class="commenter-quote">"</div>
+            </div>
+
+            <div class="lenses">
+              <div class="lens lens-why">
+                <div class="lens-label">Why it matters</div>
+                <p>It's the first credible signal that "<em>one model, many tasks</em>" is a workable shape for medical imaging — not because it beats every specialist tool, but because it removes the integration tax of running ten of them.</p>
+              </div>
+              <div class="lens lens-future">
+                <div class="lens-label">Implications for the future</div>
+                <p>If the trend holds, the bottleneck shifts from <strong>training</strong> to <strong>local validation</strong>. Hospitals will need lightweight, in-house ways to confirm a foundation model performs on their patient population — not buy a new model every six months.</p>
+              </div>
+              <div class="lens lens-fail">
+                <div class="lens-label">Where it could fail</div>
+                <p>On underrepresented populations and rare presentations. Foundation models inherit the demographic biases of their training data; "creditable across tasks" can mean "average across the easy 90% and unreliable on the hard 10%."</p>
+              </div>
+              <div class="lens lens-impact">
+                <div class="lens-label">Real-world impact</div>
+                <p>For a small clinic in Khartoum or Quito, this could collapse three vendor contracts into one — if and only if the local validation story is solved. That second condition is where the work actually happens.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- SIGNAL 2 -->
+      <article class="signal reveal" data-cat="regulation" id="signal-02">
+        <div class="signal-meta">
+          <div class="num">/ Signal 02</div>
+          <div class="tag-row">
+            <span class="tag sage">Regulation</span>
+            <span class="tag">Policy</span>
+          </div>
+          <div class="date">04 MAY 2026</div>
+          <div class="source">
+            <span class="label">// Reading from</span>
+            FDA Good Machine Learning Practice updates &amp; emerging "predetermined change control plan" frameworks
+          </div>
+        </div>
+        <div class="signal-body">
+          <h2>Regulators converge on <em>"how it learns"</em>, not just "what it learned."</h2>
+          <p class="summary">Several regulatory bodies are moving toward review frameworks for the <em>process</em> by which a clinical model continues to update — its drift monitoring, its retraining triggers, its rollback story — rather than re-reviewing each frozen version. The shift is technical but consequential.</p>
+
+          <div class="commentary">
+            <div class="commenter">
+              <div class="avatar a-warm">JK</div>
+              <div class="commenter-info">
+                <div class="commenter-name">Jamal K. <em>(placeholder)</em></div>
+                <div class="commenter-role">Head of Regulatory &amp; Compliance</div>
+              </div>
+              <div class="commenter-quote">"</div>
+            </div>
+
+            <div class="lenses">
+              <div class="lens lens-why">
+                <div class="lens-label">Why it matters</div>
+                <p>Static medical-device regulation was always a poor fit for ML systems that improve from real use. This is the regulatory world catching up — finally — with how these systems actually live.</p>
+              </div>
+              <div class="lens lens-future">
+                <div class="lens-label">Implications for the future</div>
+                <p>Companies that built their evaluation infrastructure as a <em>continuous practice</em> — not a one-time submission — will find compliance natural. Companies that didn't will face a slow, expensive rebuild.</p>
+              </div>
+              <div class="lens lens-fail">
+                <div class="lens-label">Where it could fail</div>
+                <p>If "process review" becomes a checklist that anyone can satisfy on paper while shipping models that drift in practice. The regulators need teeth on the post-market side, not just the submission side.</p>
+              </div>
+              <div class="lens lens-impact">
+                <div class="lens-label">Real-world impact</div>
+                <p>For a clinician using a model six months after deployment: a <strong>much higher chance</strong> the model behaves the way the day-one paperwork claimed. That alone is worth the regulatory churn.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- SIGNAL 3 -->
+      <article class="signal reveal" data-cat="patient" id="signal-03">
+        <div class="signal-meta">
+          <div class="num">/ Signal 03</div>
+          <div class="tag-row">
+            <span class="tag lime">Patient-facing</span>
+            <span class="tag">Triage</span>
+          </div>
+          <div class="date">02 MAY 2026</div>
+          <div class="source">
+            <span class="label">// Reading from</span>
+            Recent published evaluations of LLM-based symptom checkers vs. traditional triage protocols
+          </div>
+        </div>
+        <div class="signal-body">
+          <h2>Symptom checkers <em>quietly</em> caught up to nurse triage on a defined slice of presentations.</h2>
+          <p class="summary">A growing body of evaluations finds that LLM-based symptom checkers, given a structured set of common adult presentations, route patients to roughly the same urgency tier as experienced telephone-triage nurses — though the models still struggle with atypical presentations and pediatric cases.</p>
+
+          <div class="commentary">
+            <div class="commenter">
+              <div class="avatar a-lime">LM</div>
+              <div class="commenter-info">
+                <div class="commenter-name">Lucia M. <em>(placeholder)</em></div>
+                <div class="commenter-role">Bisma Product Lead</div>
+              </div>
+              <div class="commenter-quote">"</div>
+            </div>
+
+            <div class="lenses">
+              <div class="lens lens-why">
+                <div class="lens-label">Why it matters</div>
+                <p>This is the first piece of evidence that <em>"talk to a nurse"</em> and <em>"talk to an LLM"</em> are now in the same conversation, at least for routine presentations. That's not nothing — telephone triage is expensive and rationed everywhere.</p>
+              </div>
+              <div class="lens lens-future">
+                <div class="lens-label">Implications for the future</div>
+                <p>The right shape isn't replacement — it's <strong>tiered access</strong>. LLM as front door for routine cases, human nurse for ambiguity, escalation paths everyone trusts. The architecture matters more than the headline accuracy.</p>
+              </div>
+              <div class="lens lens-fail">
+                <div class="lens-label">Where it could fail</div>
+                <p>On the cases that don't look textbook: the patient who downplays symptoms, the elderly presentation that doesn't fit "fever + cough", the cultural framing that doesn't match training data. The 90% case being good is dangerous if the 10% gets worse.</p>
+              </div>
+              <div class="lens lens-impact">
+                <div class="lens-label">Real-world impact</div>
+                <p>For someone in a region with one nurse per ten thousand people, this is the difference between a useful first conversation at 2am and silence. The clinical limit isn't the model — it's whether the escalation path is honest.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- SIGNAL 4 -->
+      <article class="signal reveal" data-cat="research" id="signal-04">
+        <div class="signal-meta">
+          <div class="num">/ Signal 04</div>
+          <div class="tag-row">
+            <span class="tag sage">Research</span>
+            <span class="tag">Wearables</span>
+          </div>
+          <div class="date">29 APR 2026</div>
+          <div class="source">
+            <span class="label">// Reading from</span>
+            Recent multi-site studies on consumer-wearable arrhythmia detection in the home setting
+          </div>
+        </div>
+        <div class="signal-body">
+          <h2>Consumer wearables are <em>finding</em> arrhythmias clinical follow-up missed.</h2>
+          <p class="summary">A handful of multi-site studies report that continuous ECG monitoring from consumer-grade wearables identifies cases of paroxysmal atrial fibrillation that intermittent clinical monitoring missed. The clinical question is whether finding more of it leads to better outcomes — or just more anxiety and prescribing.</p>
+
+          <div class="commentary">
+            <div class="commenter">
+              <div class="avatar a-teal">PV</div>
+              <div class="commenter-info">
+                <div class="commenter-name">Dr. Priya V. <em>(placeholder)</em></div>
+                <div class="commenter-role">SERA Clinical Co-Lead</div>
+              </div>
+              <div class="commenter-quote">"</div>
+            </div>
+
+            <div class="lenses">
+              <div class="lens lens-why">
+                <div class="lens-label">Why it matters</div>
+                <p>The detection question — <em>can a wrist sensor see this?</em> — is largely answered. The interesting question is now downstream: <strong>does seeing it earlier change anything?</strong> That's a much harder study to run.</p>
+              </div>
+              <div class="lens lens-future">
+                <div class="lens-label">Implications for the future</div>
+                <p>Continuous monitoring will get cheaper and more accurate every year. The bottleneck moves to the clinical side: who reads the alerts, what do they do with them, and how do you avoid burying the meaningful signal in volume.</p>
+              </div>
+              <div class="lens lens-fail">
+                <div class="lens-label">Where it could fail</div>
+                <p><strong>Overdiagnosis.</strong> If we surface every brief, asymptomatic episode and prescribe anticoagulation accordingly, the bleeding risk could outweigh the stroke risk we were trying to prevent. The signal is real; the response needs to be calibrated.</p>
+              </div>
+              <div class="lens lens-impact">
+                <div class="lens-label">Real-world impact</div>
+                <p>For a 70-year-old at home post-discharge: the difference between a stroke caught at 2am and one caught at the next clinic visit. The infrastructure to act on that signal is what separates "useful" from "telemetry theatre."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- SIGNAL 5 -->
+      <article class="signal reveal" data-cat="ethics" id="signal-05">
+        <div class="signal-meta">
+          <div class="num">/ Signal 05</div>
+          <div class="tag-row">
+            <span class="tag">Ethics</span>
+            <span class="tag">Equity</span>
+          </div>
+          <div class="date">26 APR 2026</div>
+          <div class="source">
+            <span class="label">// Reading from</span>
+            Ongoing audit work on algorithmic performance gaps across demographic groups
+          </div>
+        </div>
+        <div class="signal-body">
+          <h2>The <em>performance gap</em> is the headline. The fix is the deeper story.</h2>
+          <p class="summary">Audits of widely deployed clinical AI continue to surface performance differentials across age, sex, and ethnicity. The technical fixes (rebalancing, fairness-aware training, calibration adjustment) have been understood for years. The question is why deployment so often runs ahead of the fix.</p>
+
+          <div class="commentary">
+            <div class="commenter">
+              <div class="avatar a-grey">NB</div>
+              <div class="commenter-info">
+                <div class="commenter-name">Noor B. <em>(placeholder)</em></div>
+                <div class="commenter-role">Head of Model Evaluation</div>
+              </div>
+              <div class="commenter-quote">"</div>
+            </div>
+
+            <div class="lenses">
+              <div class="lens lens-why">
+                <div class="lens-label">Why it matters</div>
+                <p>A model that works well on the populations it was tested on, and quietly worse on the ones it wasn't, is <em>not a faulty model</em> — it's a faulty deployment. The accountability lives with whoever decided to ship.</p>
+              </div>
+              <div class="lens lens-future">
+                <div class="lens-label">Implications for the future</div>
+                <p>Routine subgroup reporting will become non-negotiable in regulatory submissions. The question isn't whether your model has gaps — every model does — but whether you found them and named them before the auditor did.</p>
+              </div>
+              <div class="lens lens-fail">
+                <div class="lens-label">Where it could fail</div>
+                <p>If subgroup analysis becomes a compliance ritual rather than a feedback loop. Reporting a 10% gap and shipping anyway, with the disclaimer in the appendix, is performative — not corrective.</p>
+              </div>
+              <div class="lens lens-impact">
+                <div class="lens-label">Real-world impact</div>
+                <p>For a patient outside the design population: the difference between care that suits them and care that's been quietly miscalibrated for them since launch. Equity in AI is a deployment discipline, not a training one.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- SUBSCRIBE -->
+      <div class="subscribe reveal">
+        <div>
+          <h3>Get <em>Signals</em> in your inbox.</h3>
+          <p>One short edition every other week. The stories that matter, the ones we're sceptical about, and what they mean for the patient. No filler.</p>
+        </div>
+        <div>
+          <form class="subscribe-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed';">
+            <input type="email" placeholder="your@email.com" required>
+            <button type="submit">Subscribe</button>
+          </form>
+          <div class="small">No spam. Unsubscribe in one click. Curated by the Sumora team.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="foot">
+      <div>© 2026 Sumora Health · Dubai, UAE · Editorial views are commentary, not clinical advice</div>
+      <div>
+        <a href="index.html">Home</a>
+        <a href="technology.html">Technology</a>
+        <a href="about.html">About</a>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Filter chips
+  const chips = document.querySelectorAll('.chip');
+  const signals = document.querySelectorAll('.signal');
+  chips.forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      const f = chip.dataset.filter;
+      signals.forEach(s=>{
+        s.style.display = (f === 'all' || s.dataset.cat === f) ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+
+<!-- ===================== SITE FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="sf-brand">
+      <a href="index.html" class="brand"><span class="brand-mark" style="background:var(--lime);"></span>sumora<span class="reg">®</span></a>
+      <p>An AI healthcare company building intelligent systems for clinicians, patients, and the care that connects them.</p>
+      <div class="loc">DUBAI · UAE</div>
+    </div>
+    <div class="sf-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="index.html#solutions">Barnard</a></li>
+        <li><a href="index.html#solutions">VRx</a></li>
+        <li><a href="index.html#solutions">SERA</a></li>
+        <li><a href="index.html#solutions">Bisma</a></li>
+      </ul>
+    </div>
+    <div class="sf-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="signals.html" class="active">Signals</a></li>
+      </ul>
+    </div>
+    <div class="sf-col">
+      <h4>Trust</h4>
+      <ul>
+        <li><a href="technology.html#evaluation">Evaluation</a></li>
+        <li><a href="technology.html#limits">Limitations</a></li>
+        <li><a href="technology.html#references">References</a></li>
+        <li><a href="technology.html">Technology</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer-bottom">
+    <div>© 2026 Sumora Health · All rights reserved</div>
+    <div>Designed in Dubai · Trained on consented data</div>
+  </div>
+</footer>
+<script>
+  // Mobile drawer toggle
+  (function(){
+    const btn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    const closeBtn = document.getElementById('drawerClose');
+    if(!btn || !drawer || !backdrop) return;
+
+    function setOpen(open){
+      drawer.classList.toggle('open', open);
+      backdrop.classList.toggle('open', open);
+      document.body.classList.toggle('drawer-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      drawer.setAttribute('aria-hidden', String(!open));
+      backdrop.setAttribute('aria-hidden', String(!open));
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const isOpen = drawer.classList.contains('open');
+      setOpen(!isOpen);
+    });
+    if(closeBtn){ closeBtn.addEventListener('click', ()=> setOpen(false)); }
+    backdrop.addEventListener('click', ()=> setOpen(false));
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && drawer.classList.contains('open')) setOpen(false);
+    });
+    drawer.querySelectorAll('.drawer-nav a').forEach(a => {
+      a.addEventListener('click', ()=> setOpen(false));
+    });
+  })();
+</script>
+</body>
+</html>
