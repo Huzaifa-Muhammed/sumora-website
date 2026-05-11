@@ -159,7 +159,7 @@ export default function TechnologyPage() {
                   </div>
 
                   <div className="reasoning">
-                    <span className="label">// Barnard output (ranked differential)</span>
+                    <span className="label">{"// Barnard output (ranked differential)"}</span>
                     <div className="ranked">
                       <div className="ranked-item">
                         <span className="rank-name">Stable angina</span>
@@ -384,7 +384,7 @@ export default function TechnologyPage() {
                 <p>Selected sources cited above. This is a working bibliography, not an exhaustive one — the field is large and moving. We prioritise peer-reviewed journals, regulatory body guidance, and open clinical guidelines.</p>
 
                 <div className="references">
-                  <h5>// Cited above</h5>
+                  <h5>{"// Cited above"}</h5>
                   <ol>
                     <li>Topol, E. J. (2019). High-performance medicine: the convergence of human and artificial intelligence. <em>Nature Medicine</em>, 25(1), 44–56.</li>
                     <li>McKinney, S. M. et al. (2020). International evaluation of an AI system for breast cancer screening. <em>Nature</em>, 577, 89–94.</li>

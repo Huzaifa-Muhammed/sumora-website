@@ -88,7 +88,7 @@ export default function SiteHeader({
         <div className="drawer-inner">
           <div className="drawer-head">
             <span className="drawer-eyebrow" id="drawerLabel">
-              // MENU
+              {"// MENU"}
             </span>
             <button
               className="drawer-close"

@@ -60,7 +60,7 @@ export default function SignalsPage() {
           {/* DEVELOPMENTS TIMELINE */}
           <section className="developments reveal">
             <header className="dev-header">
-              <div className="dev-eyebrow">// DEVELOPMENTS · 2024 → 2026</div>
+              <div className="dev-eyebrow">{"// DEVELOPMENTS · 2024 → 2026"}</div>
               <h2 className="dev-title">The bigger picture, in <em>dates</em>.</h2>
               <p className="dev-lead">Before the weekly read below: a year-and-a-half of major moves across AI healthcare — regulation, foundation models, drug discovery, devices, deployment, and capital. Selective, not exhaustive. We update this list as the field moves.</p>
 
@@ -238,7 +238,7 @@ export default function SignalsPage() {
             </div>
 
             <div className="dev-foot">
-              <span className="dev-foot-label">// READING THIS WEEK</span>
+              <span className="dev-foot-label">{"// READING THIS WEEK"}</span>
               <p>Five signals below take a closer look at the moments above — what they mean, where they could fail, and what they imply for the patient.</p>
             </div>
           </section>
@@ -255,7 +255,7 @@ export default function SignalsPage() {
                 </div>
                 <div className="date">06 MAY 2026</div>
                 <div className="source">
-                  <span className="label">// Reading from</span>
+                  <span className="label">{"// Reading from"}</span>
                   Multiple peer-reviewed publications on multimodal foundation models in radiology and pathology
                 </div>
               </div>
@@ -305,7 +305,7 @@ export default function SignalsPage() {
                 </div>
                 <div className="date">04 MAY 2026</div>
                 <div className="source">
-                  <span className="label">// Reading from</span>
+                  <span className="label">{"// Reading from"}</span>
                   FDA Good Machine Learning Practice updates &amp; emerging &ldquo;predetermined change control plan&rdquo; frameworks
                 </div>
               </div>
@@ -355,7 +355,7 @@ export default function SignalsPage() {
                 </div>
                 <div className="date">02 MAY 2026</div>
                 <div className="source">
-                  <span className="label">// Reading from</span>
+                  <span className="label">{"// Reading from"}</span>
                   Recent published evaluations of LLM-based symptom checkers vs. traditional triage protocols
                 </div>
               </div>
@@ -405,7 +405,7 @@ export default function SignalsPage() {
                 </div>
                 <div className="date">29 APR 2026</div>
                 <div className="source">
-                  <span className="label">// Reading from</span>
+                  <span className="label">{"// Reading from"}</span>
                   Recent multi-site studies on consumer-wearable arrhythmia detection in the home setting
                 </div>
               </div>
@@ -455,7 +455,7 @@ export default function SignalsPage() {
                 </div>
                 <div className="date">26 APR 2026</div>
                 <div className="source">
-                  <span className="label">// Reading from</span>
+                  <span className="label">{"// Reading from"}</span>
                   Ongoing audit work on algorithmic performance gaps across demographic groups
                 </div>
               </div>
