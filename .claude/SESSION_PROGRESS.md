@@ -217,11 +217,33 @@ git push -u origin main
 - `README.md` — added Deploy + Security sections.
 - `.gitignore` — added `.claude/settings.local.json` exclusion.
 
+### Deploy went live
+
+Production: **https://www.sumorahealth.com/** (Vercel auto-deploys from `main`).
+
+DNS path: Hostinger keeps the nameservers; two records point to Vercel:
+
+- `A    @     216.198.79.1`
+- `CNAME www  9e8e1c4650f86c69.vercel-dns-017.com`
+
+`www` is the canonical / production domain; the apex `sumorahealth.com` 307-redirects to it. SSL provisioned automatically by Vercel via Let's Encrypt. The Vercel project's `ANTHROPIC_API_KEY` env var is set across Production / Preview / Development for the Sumi chat.
+
+### Vercel build hiccup we hit and fixed
+
+First Vercel build failed on `react/jsx-no-comment-textnodes` — ESLint thought our literal `// MENU`, `// Reading from`, `// Cited above` eyebrow labels were misplaced comments. Fixed by wrapping each in JSX expression braces (`{"// MENU"}`). 10 spots across `SiteHeader.tsx`, `app/signals/page.tsx`, `app/technology/page.tsx`. See commit `5675de2`.
+
+Two warnings still in the build log, both non-blocking:
+
+- `@next/next/no-page-custom-font` on `app/layout.tsx` — we load Google Fonts via `<link>` instead of `next/font/google`. Perf nudge, ignored for now.
+- `autoprefixer: end value has mixed support, consider using flex-end` in `app/careers/careers.css`. Cosmetic.
+
 ### What's still pending
 
 - Browser QA pass on every page (still hasn't been done by either of us).
 - Editorial placeholders from the original brief: `[Founder Name]` slots on `/about`, real LinkedIn URLs, confirming canonical email domain, weekly Signals issue updates, extending the developments timeline.
 - Escape-key handler on the careers role-detail modal (drawer has Escape; modal doesn't).
-- After Vercel deploy: paste the production URL into the README, and decide on a favicon (currently none — add `app/icon.png` or `app/favicon.ico`).
+- Favicon — `public/` is empty; add `app/icon.png` or `app/favicon.ico`.
+- `next@14.2.5` has a published security advisory — bump to latest `14.2.x` patch (or `14.3.x`) when convenient.
+- Refactor Google Fonts to `next/font/google` to silence the page-custom-font warning and improve font-loading perf.
 - Add Vercel Analytics or similar if traffic insight is wanted.
 - The model id `claude-sonnet-4-6` in `app/api/sumi-chat/route.ts` — verify it works on first live test; swap if the API returns 404 model-not-found.

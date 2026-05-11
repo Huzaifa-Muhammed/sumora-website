@@ -1,5 +1,7 @@
 # Sumora Health — website
 
+Live at **[sumorahealth.com](https://www.sumorahealth.com/)** (deployed on Vercel, DNS via Hostinger, auto-deploys from `main`).
+
 Six-page Next.js (App Router, TypeScript) build of the Sumora Health marketing site. The page-for-page reference HTML it was built from lives in [`_design/`](./_design).
 
 ## Pages
