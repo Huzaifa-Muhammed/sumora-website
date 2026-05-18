@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Sumora Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sage:#A8B7B0;
+    --sage-light:#C2CFC8;
+    --sage-deep:#8AA197;
+    --paper:#FAFAF7;
+    --paper-2:#F4F3EE;
+    --ink:#0E1315;
+    --ink-soft:#3A4147;
+    --muted:#6B7378;
+    --line:rgba(14,19,21,0.10);
+    --line-soft:rgba(14,19,21,0.05);
+    --navy:#1E2A78;
+    --teal:#1EB89A;
+    --teal-glow:#3DDFB0;
+    --lime:#D9F255;
+    --lime-bright:#E5FF6E;
+    --display:'Inter', sans-serif;
+    --serif:'Instrument Serif', serif;
+    --sans:'Inter', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--sage);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.55;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1000;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode:multiply;
+  }
+  a{color:inherit; text-decoration:none;}
+
+  /* CARD WRAPPER */
+  .page-wrap{
+    background: var(--sage);
+    padding: 60px 60px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .page-wrap::before, .page-wrap::after{
+    content:""; position:absolute;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:50%;
+    pointer-events:none;
+  }
+  .page-wrap::before{ width:1100px; height:1100px; top:-300px; left:50%; transform:translateX(-50%);}
+  .page-wrap::after{ width:1500px; height:1500px; bottom:-700px; left:50%; transform:translateX(-50%);}
+
+  .card{
+    background: var(--paper);
+    border-radius: 24px;
+    position:relative;
+    overflow:hidden;
+    box-shadow: 0 30px 80px -30px rgba(14,19,21,0.18);
+  }
+
+  /* TOP BAR */
+  .topbar{
+    padding: 36px 56px;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:center;
+    gap:40px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .brand{
+    font-family:var(--display); font-weight:700; font-size:26px;
+    letter-spacing:-0.01em; color:var(--ink);
+    display:inline-flex; align-items:flex-start; gap:2px;
+    cursor:pointer; transition: opacity .25s;
+  }
+  .brand:hover{ opacity:0.7;}
+  .brand .reg{ font-size:11px; font-weight:500; margin-top:4px; color:var(--ink-soft);}
+  .brand-mark{
+    width:10px; height:10px; background:var(--lime); border-radius:50%;
+    margin: 6px 4px 0 0;
+  }
+  .topbar-right{ display:flex; justify-content:flex-end; align-items:center;}
+  .menu-btn{
+    width:40px; height:40px;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    gap:5px; border-radius:50%; cursor:pointer; transition: background .25s;
+  }
+  .menu-btn:hover{ background: rgba(0,0,0,0.04);}
+  .menu-btn span{ width:18px; height:1.5px; background:var(--ink); border-radius:2px;}
+  @media (max-width:980px){
+    .topbar{padding:24px 28px; grid-template-columns: 1fr auto;}
+    .page-wrap{padding:24px 24px 16px;}
+  }
+
+  /* PAGE HERO */
+  .page-hero{
+    padding: 90px 56px 70px;
+    display:grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 60px;
+    align-items:end;
+  }
+  @media (max-width:900px){ .page-hero{grid-template-columns:1fr; gap:32px; padding: 56px 28px 40px;}}
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--display); font-size:14px; font-weight:500;
+    color:var(--ink-soft); margin-bottom:24px;
+  }
+  .eyebrow::before{ content:""; width:5px; height:5px; background:var(--ink); border-radius:50%;}
+
+  h1.page-title{
+    font-family:var(--display);
+    font-weight:400;
+    font-size: clamp(40px, 5.2vw, 80px);
+    line-height:1.05;
+    letter-spacing:-0.025em;
+    color:var(--ink);
+  }
+  h1.page-title em{
+    font-family:var(--serif); font-style:italic; font-weight:400; letter-spacing:-0.01em;
+  }
+
+  .page-aside p{
+    font-family:var(--display); font-size:16px; line-height:1.55;
+    color:var(--ink-soft); max-width:380px;
+  }
+
+  /* CONTENT BLOCKS */
+  .content{ padding: 60px 56px 100px;}
+  @media (max-width:900px){.content{ padding: 40px 28px 70px;}}
+
+  .block{
+    display:grid; grid-template-columns: 1fr 1.6fr; gap:80px;
+    padding: 60px 0;
+    border-top:1px solid var(--line);
+  }
+  @media (max-width:900px){.block{grid-template-columns:1fr; gap:24px;}}
+  .block-label{
+    font-family:var(--display); font-size:13px; font-weight:500; color:var(--ink-soft);
+    display:flex; align-items:center; gap:10px;
+  }
+  .block-label::before{
+    content:""; width:5px; height:5px; background:var(--ink); border-radius:50%;
+  }
+  .block h2{
+    font-family:var(--display); font-weight:400;
+    font-size: clamp(28px, 3.4vw, 48px);
+    line-height:1.05; letter-spacing:-0.02em;
+    margin-top:14px; color:var(--ink);
+  }
+  .block h2 em{
+    font-family:var(--serif); font-style:italic; font-weight:400;
+  }
+  .block-body p{
+    font-size:17px; line-height:1.65; color:var(--ink-soft); margin-bottom:18px;
+  }
+  .block-body p:first-child{
+    font-family:var(--display); font-size:21px; line-height:1.5; color:var(--ink); margin-bottom:24px;
+    font-weight:400;
+  }
+
+  .principles{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:18px;
+    overflow:hidden;
+    margin-top:32px;
+  }
+  @media (max-width:900px){.principles{grid-template-columns:1fr;}}
+  .principle{
+    background:var(--paper);
+    padding: 32px 28px;
+  }
+  .principle .num{
+    font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.1em;
+    margin-bottom:18px; display:block;
+  }
+  .principle h3{
+    font-family:var(--display); font-weight:500; font-size:20px; letter-spacing:-0.01em;
+    margin-bottom:12px;
+  }
+  .principle h3 em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .principle p{ font-size:14px; line-height:1.55; color:var(--ink-soft);}
+
+  /* TIMELINE */
+  .timeline{
+    margin-top: 32px;
+    border-top:1px solid var(--line);
+  }
+  .timeline-item{
+    display:grid; grid-template-columns: 120px 1fr; gap:40px;
+    padding: 24px 0;
+    border-bottom:1px solid var(--line);
+    align-items:start;
+  }
+  @media (max-width:700px){.timeline-item{grid-template-columns:1fr; gap:8px;}}
+  .timeline-when{
+    font-family:var(--mono); font-size:13px; color:var(--ink); letter-spacing:0.05em;
+  }
+  .timeline-what h4{
+    font-family:var(--display); font-size:18px; font-weight:500; margin-bottom:6px;
+  }
+  .timeline-what h4 em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .timeline-what p{ font-size:15px; color:var(--ink-soft); line-height:1.55;}
+
+  /* PROBLEM */
+  .problems{
+    margin-top: 32px;
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:18px;
+    overflow:hidden;
+  }
+  @media (max-width:900px){.problems{grid-template-columns:1fr;}}
+  .problem{
+    background: var(--paper);
+    padding: 36px 32px;
+    display:flex; flex-direction:column;
+    transition: background .3s;
+  }
+  .problem:hover{ background: var(--paper-2);}
+  .problem .problem-num{
+    font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.1em;
+    margin-bottom:24px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .problem .problem-num .tag{
+    font-family:var(--display); font-size:11px; font-weight:500; color:var(--ink-soft);
+    padding:3px 10px; background: var(--paper-2); border-radius:100px;
+    text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .problem:hover .problem-num .tag{ background:var(--paper);}
+  .problem h3{
+    font-family:var(--display); font-size:22px; font-weight:500;
+    letter-spacing:-0.015em; line-height:1.15;
+    margin-bottom:14px;
+  }
+  .problem h3 em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .problem p{
+    font-size:14.5px; line-height:1.6; color:var(--ink-soft);
+    margin-bottom:24px;
+    flex:1;
+  }
+  .problem .stat-line{
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    display:flex; align-items:baseline; gap:12px;
+  }
+  .problem .stat-line .big{
+    font-family:var(--display); font-weight:400;
+    font-size:38px; letter-spacing:-0.02em; line-height:1;
+    color:var(--ink);
+  }
+  .problem .stat-line .big em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .problem .stat-line .small{
+    font-family:var(--display); font-size:12px; color:var(--ink-soft); line-height:1.4;
+  }
+
+  /* Sumora's response strip beneath problems */
+  .problem-response{
+    margin-top: 24px;
+    padding: 32px 36px;
+    border-radius: 18px;
+    background: var(--ink); color: var(--paper);
+    display:flex; align-items:center; justify-content:space-between; gap:32px;
+    flex-wrap:wrap;
+  }
+  .problem-response .label{
+    font-family:var(--display); font-size:11px; font-weight:500;
+    color: var(--lime); letter-spacing:0.12em; text-transform:uppercase;
+    margin-bottom:8px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .problem-response .label::before{
+    content:""; width:6px; height:6px; background:var(--lime); border-radius:50%;
+  }
+  .problem-response h4{
+    font-family:var(--display); font-weight:400; font-size:22px; letter-spacing:-0.01em;
+    line-height:1.3; max-width:640px;
+  }
+  .problem-response h4 em{ font-family:var(--serif); font-style:italic; color:var(--lime);}
+
+  /* LEADERSHIP */
+  .leaders{
+    margin-top: 32px;
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:18px;
+    overflow:hidden;
+  }
+  @media (max-width:900px){.leaders{grid-template-columns:1fr;}}
+  .leader{
+    background: var(--paper);
+    padding: 36px 32px;
+    position:relative;
+    transition: background .3s;
+  }
+  .leader:hover{ background: var(--paper-2);}
+  .leader .portrait{
+    width:100%; aspect-ratio: 4/5;
+    border-radius:12px;
+    margin-bottom:24px;
+    position:relative;
+    overflow:hidden;
+    background: var(--paper-2);
+  }
+  .leader .portrait img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition: transform .8s ease;
+  }
+  .leader:hover .portrait img{ transform: scale(1.025);}
+  /* Lime accent dot in the bottom corner of the portrait */
+  .leader .portrait::after{
+    content:""; position:absolute;
+    bottom:14px; left:14px;
+    width:10px; height:10px; border-radius:50%;
+    background: var(--lime);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
+    z-index: 2;
+  }
+  .leader .meta-row{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-bottom:14px;
+  }
+  .leader .number{
+    font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.1em;
+  }
+  .leader .country{
+    font-family:var(--mono); font-size:11px; color:var(--ink-soft); letter-spacing:0.05em;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .leader .country::before{
+    content:""; width:5px; height:5px; border-radius:50%; background:var(--ink);
+  }
+  .leader h3{
+    font-family:var(--display); font-size:24px; font-weight:500;
+    letter-spacing:-0.015em; line-height:1.15;
+    margin-bottom:4px;
+  }
+  .leader h3 em{ font-family:var(--serif); font-style:italic; font-weight:400;}
+  .leader .role{
+    font-family:var(--display); font-size:13px; color:var(--ink-soft);
+    margin-bottom:18px;
+  }
+  .leader p{
+    font-size:14px; line-height:1.6; color:var(--ink-soft);
+    margin-bottom:18px;
+  }
+  .leader .links{
+    display:flex; gap:8px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .leader .links a{
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-soft);
+    transition: all .25s;
+  }
+  .leader .links a:hover{
+    background: var(--ink); color:var(--paper); border-color:var(--ink);
+  }
+  .leader .links a svg{ width:13px; height:13px;}
+
+  /* TEAM */
+  .team-grid{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:18px;
+    overflow:hidden; margin-top:32px;
+  }
+  @media (max-width:900px){.team-grid{grid-template-columns:repeat(2,1fr);}}
+  .member{ background:var(--paper); padding: 32px 24px;}
+  .member .avatar{
+    width:56px; height:56px; border-radius:50%;
+    margin-bottom:18px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-weight:500; font-size:18px; color:var(--ink);
+  }
+  .member .avatar.a1{ background: linear-gradient(135deg, #DFB89A, #B8855E);}
+  .member .avatar.a2{ background: linear-gradient(135deg, #C2CFC8, #8AA197);}
+  .member .avatar.a3{ background: linear-gradient(135deg, #D9F255, #B8D04A);}
+  .member .avatar.a4{ background: linear-gradient(135deg, #B8B8B0, #6B6E68); color:var(--paper);}
+  .member h4{ font-family:var(--display); font-size:17px; font-weight:500; letter-spacing:-0.005em;}
+  .member .role{ font-family:var(--display); font-size:13px; color:var(--muted); margin-top:2px; margin-bottom:14px;}
+  .member p{ font-size:13px; line-height:1.55; color:var(--ink-soft);}
+
+  /* CTA STRIP */
+  .cta-strip{
+    margin-top:60px; padding: 40px 48px;
+    background: var(--ink); color: var(--paper); border-radius:18px;
+    display:flex; align-items:center; justify-content:space-between; gap:32px;
+    flex-wrap:wrap;
+  }
+  .cta-strip h3{
+    font-family:var(--display); font-weight:400; font-size:28px; letter-spacing:-0.015em; max-width:540px;
+  }
+  .cta-strip h3 em{ font-family:var(--serif); font-style:italic; color:var(--lime);}
+  .cta-strip .actions{ display:flex; gap:10px; flex-wrap:wrap;}
+  .pill-light{
+    padding:13px 24px; border-radius:100px; font-family:var(--display); font-size:14px; font-weight:500;
+    background:var(--lime); color:var(--ink); transition: all .25s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .pill-light:hover{ background: var(--lime-bright);}
+  .pill-ghost{
+    padding:13px 24px; border-radius:100px; font-family:var(--display); font-size:14px; font-weight:500;
+    border:1px solid rgba(255,255,255,0.3); color:var(--paper); transition: all .25s;
+  }
+  .pill-ghost:hover{ background:var(--paper); color:var(--ink); border-color:var(--paper);}
+
+  /* FOOTER (slim) */
+  .foot{
+    padding: 32px 56px;
+    border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--display); font-size:12px; color:var(--muted);
+    flex-wrap:wrap; gap:16px;
+  }
+  @media (max-width:700px){.foot{padding:24px 28px;}}
+  .foot a{ color:var(--ink-soft); margin-left:18px;}
+  .foot a:hover{ color:var(--ink);}
+
+  .reveal{ opacity:0; transform:translateY(30px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1);}
+  .reveal.in{ opacity:1; transform:translateY(0);}
+
+  /* ============ DRAWER (mobile) ============ */
+  .menu-btn{
+    width:40px; height:40px;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    gap:5px;
+    border-radius:50%;
+    border: none; background: transparent;
+    padding: 0;
+    cursor:pointer;
+    transition: background .25s;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .menu-btn:hover{ background: rgba(0,0,0,0.04);}
+  .menu-btn:focus-visible{ outline: 2px solid var(--ink); outline-offset: 2px;}
+  .menu-btn span{
+    width:18px; height:1.5px; background:var(--ink); border-radius:2px;
+    transition: transform .3s ease, opacity .25s ease;
+    display:block;
+  }
+  body.drawer-open .menu-btn span:nth-child(1){ transform: translateY(3.25px) rotate(45deg);}
+  body.drawer-open .menu-btn span:nth-child(2){ transform: translateY(-3.25px) rotate(-45deg);}
+
+  .drawer-backdrop{
+    position: fixed; inset: 0;
+    background: rgba(14,19,21,0.50);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+    z-index: 998; opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .drawer-backdrop.open{ opacity: 1; pointer-events: auto;}
+  .drawer{
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(360px, 88vw);
+    background: var(--paper); color: var(--ink);
+    z-index: 999;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.2,.8,.2,1);
+    display: flex; flex-direction: column;
+    box-shadow: -16px 0 40px -12px rgba(14,19,21,0.25);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .drawer.open{ transform: translateX(0);}
+  .drawer-inner{
+    display: flex; flex-direction: column;
+    min-height: 100%;
+    padding: 28px 32px 32px;
+  }
+  .drawer-head{
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 36px;
+  }
+  .drawer-eyebrow{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .drawer-close{
+    width:36px; height:36px;
+    border: 1px solid var(--line);
+    background: transparent; border-radius: 50%;
+    position: relative; cursor: pointer; padding: 0;
+    font-family: inherit; -webkit-tap-highlight-color: transparent;
+    transition: background .2s, border-color .2s;
+  }
+  .drawer-close:hover{ background: rgba(0,0,0,0.04); border-color: var(--ink);}
+  .drawer-close span{
+    position: absolute; top: 50%; left: 50%;
+    width: 14px; height: 1.5px;
+    background: var(--ink); border-radius: 1px;
+    display: block;
+  }
+  .drawer-close span:nth-child(1){ transform: translate(-50%,-50%) rotate(45deg);}
+  .drawer-close span:nth-child(2){ transform: translate(-50%,-50%) rotate(-45deg);}
+
+  .drawer-nav{ display: flex; flex-direction: column; flex: 1;}
+  .drawer-nav a{
+    display: block;
+    font-family: var(--display); font-weight: 500;
+    font-size: 26px; line-height: 1.2; letter-spacing: -0.018em;
+    color: var(--ink);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-soft);
+    text-decoration: none;
+    transition: color .25s, padding-left .25s;
+  }
+  .drawer-nav a:last-child{ border-bottom: none;}
+  .drawer-nav a:hover{ color: var(--teal); padding-left: 6px;}
+  .drawer-nav a em{
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    color: var(--teal);
+  }
+  .drawer-nav a sup{
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); font-weight: 400;
+    margin-left: 4px; vertical-align: super;
+  }
+  .drawer-nav a .arr{ color: var(--muted); margin-left: 6px;}
+
+  .drawer-foot{
+    margin-top: 32px; padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .drawer-email{
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+    color: var(--ink); text-decoration: none;
+    transition: color .2s;
+  }
+  .drawer-email:hover{ color: var(--teal);}
+  .drawer-addr{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  body.drawer-open{ overflow: hidden;}
+
+  /* ============ SITE FOOTER (consistent across inner pages) ============ */
+  .site-footer{
+    background: var(--ink); color: var(--paper);
+    padding: 72px 40px 32px;
+    margin-top: 80px;
+  }
+  .site-footer-inner{
+    max-width: 1280px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+  }
+  @media (max-width: 900px){
+    .site-footer{ padding: 56px 24px 28px;}
+    .site-footer-inner{ grid-template-columns: 1fr 1fr; gap: 36px;}
+  }
+  .sf-brand .brand{ color: var(--paper); margin-bottom: 18px; display: inline-flex; align-items: center; gap: 8px;}
+  .sf-brand .brand .reg{ color: rgba(255,255,255,0.6); font-size: 11px;}
+  .sf-brand p{ font-size: 13px; color: rgba(244,241,234,0.65); max-width: 300px; line-height: 1.6;}
+  .sf-brand .loc{ margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--lime);}
+  .sf-col h4{
+    font-family: var(--display); font-size: 13px; font-weight: 500;
+    color: var(--lime); margin-bottom: 18px;
+  }
+  .sf-col ul{ list-style: none; display: flex; flex-direction: column; gap: 10px; padding: 0; margin: 0;}
+  .sf-col a{
+    font-size: 13px; color: rgba(244,241,234,0.75);
+    text-decoration: none; transition: color .25s;
+  }
+  .sf-col a:hover{ color: var(--paper);}
+  .sf-col a.active{ color: var(--lime);}
+  .site-footer-bottom{
+    max-width: 1280px; margin: 60px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--display); font-size: 12px;
+    color: rgba(244,241,234,0.5);
+    flex-wrap: wrap; gap: 16px;
+  }
+
+  .li-placeholder{ opacity: 0.35; cursor: not-allowed; display: inline-flex; align-items: center; justify-content: center;}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+  <div class="card">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <a href="index.html" class="brand"><span class="brand-mark"></span>sumora<span class="reg">®</span></a>
+      <div class="topbar-right"><button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false" type="button"><span></span><span></span></button></div>
+    </div>
+
+<!-- Mobile drawer -->
+<div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+<aside class="drawer" id="mobileDrawer" aria-hidden="true" aria-labelledby="drawerLabel">
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <span class="drawer-eyebrow" id="drawerLabel">// MENU</span>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu" type="button">
+        <span></span><span></span>
+      </button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="index.html">Home</a>
+      <a href="technology.html">Technology</a>
+      <a href="index.html#solutions">Solutions <sup>(4)</sup></a>
+      <a href="signals.html">Signals</a>
+      <a href="about.html"><em>About</em></a>
+      <a href="careers.html">Careers <sup>(7)</sup></a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="drawer-foot">
+      <a href="mailto:hello@sumorahealth.com" class="drawer-email">hello@sumorahealth.com</a>
+      <span class="drawer-addr">Downtown Dubai · UAE</span>
+    </div>
+  </div>
+</aside>
+
+    <!-- Page hero -->
+    <section class="page-hero">
+      <div>
+        <div class="eyebrow">About Sumora</div>
+        <h1 class="page-title">An <em>investment</em><br>in accessible<br>medicine.</h1>
+      </div>
+      <div class="page-aside">
+        <p>Founded in Dubai in 2024, Sumora Health builds the AI infrastructure for a kind of medicine that is continuous, verifiable, and reachable — wherever a patient happens to be.</p>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- The Problem -->
+      <section class="block reveal">
+        <div>
+          <div class="block-label">The Problem</div>
+          <h2>Three <em>fractures</em><br>in modern medicine.</h2>
+        </div>
+        <div class="block-body">
+          <p>Healthcare today is brilliant in concentrated places and fragile almost everywhere else. Three fractures keep showing up in the data, and they are the ones Sumora is built to close.</p>
+
+          <div class="problems">
+
+            <!-- Problem 1: Cost -->
+            <div class="problem">
+              <div class="problem-num">
+                <span>/ 01</span>
+                <span class="tag">Cost</span>
+              </div>
+              <h3>Care that is <em>too expensive</em> to reach the people who need it.</h3>
+              <p>A diagnostic workup, a follow-up consultation, a recovery monitor — each one is priced for the wealthier half of the world. The other half is told to wait, travel, or do without. The economics keep medicine out of reach long before clinical limits do.</p>
+              <div class="stat-line">
+                <span class="big">half<em>+</em></span>
+                <span class="small">of the world<br>lacks access to essential health services</span>
+              </div>
+            </div>
+
+            <!-- Problem 2: Counterfeit medicines -->
+            <div class="problem">
+              <div class="problem-num">
+                <span>/ 02</span>
+                <span class="tag">Trust</span>
+              </div>
+              <h3>Medicines that <em>aren't what they say</em> they are.</h3>
+              <p>Counterfeit and substandard medicines circulate widely in lower-income markets — sometimes inert, sometimes actively harmful. Patients take them in good faith. Pharmacies stock them without knowing. Manufacturers lose the chain of custody at the point it matters most.</p>
+              <div class="stat-line">
+                <span class="big">1 in <em>10</em></span>
+                <span class="small">medical products in lower-income countries<br>is substandard or falsified <span style="color:var(--muted);">(WHO)</span></span>
+              </div>
+            </div>
+
+            <!-- Problem 3: Access -->
+            <div class="problem">
+              <div class="problem-num">
+                <span>/ 03</span>
+                <span class="tag">Distance</span>
+              </div>
+              <h3>Specialists that <em>live too far away</em> from the patient.</h3>
+              <p>Across much of the southern hemisphere, the nearest specialist is hours or days away. A rash, a cardiac murmur, a worrying cough — each one becomes a journey, a missed shift, an untreated illness. The diagnostic capacity exists; it just doesn't reach.</p>
+              <div class="stat-line">
+                <span class="big">3.5<em>bn</em></span>
+                <span class="small">people without full coverage<br>of essential health services <span style="color:var(--muted);">(WHO)</span></span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sumora's response -->
+          <div class="problem-response">
+            <div>
+              <div class="label">Sumora's Response</div>
+              <h4>Four products mapped onto these three fractures — <em>Barnard</em> for diagnostic reach, <em>VRx</em> for medicine trust, <em>SERA</em> and <em>Bisma</em> for continuous, low-cost access — all sharing one secure record the patient owns.</h4>
+            </div>
+          </div>
+
+          <p style="margin-top:32px; color:var(--muted); font-size:14px;">Statistics referenced from World Health Organization global health reporting. Sumora's products are an attempt at the engineering side of the response, not a claim to solve any of these problems alone.</p>
+        </div>
+      </section>
+
+      <!-- The Story -->
+      <section class="block reveal">
+        <div>
+          <div class="block-label">The Story</div>
+          <h2>Started with a <em>simple</em> observation.</h2>
+        </div>
+        <div class="block-body">
+          <p>Modern medicine is brilliant in the room and silent everywhere else. The diagnostic capability of a major hospital almost never reaches the village clinic, the home recovery, the night-shift nurse running on three hours of sleep.</p>
+          <p>Sumora exists to reduce that gap with software. Not to replace the clinician — the opposite. To extend their reach, sharpen their judgement, and keep watching when they can't be in the room.</p>
+          <p>We started in 2024 with four products that map onto four moments in a care journey: diagnosis, verification, monitoring, and self-triage. They share one secure record. The patient owns it. The clinician borrows access. That structure isn't a feature; it's the company.</p>
+        </div>
+      </section>
+
+      <!-- Principles -->
+      <section class="block reveal">
+        <div>
+          <div class="block-label">What We Believe</div>
+          <h2>Five <em>principles</em> on the wall.</h2>
+        </div>
+        <div class="block-body">
+          <p style="font-family:var(--display); font-size:18px; color:var(--ink); margin-bottom:0;">These show up in every product review. If a feature can't justify itself against them, it doesn't ship.</p>
+          <div class="principles">
+            <div class="principle">
+              <span class="num">/ 01</span>
+              <h3>Patient owns the <em>record</em>.</h3>
+              <p>Always. The clinician borrows access. This is non-negotiable architecture, not a marketing line.</p>
+            </div>
+            <div class="principle">
+              <span class="num">/ 02</span>
+              <h3>Explainable or <em>nothing</em>.</h3>
+              <p>Every AI suggestion shows its reasoning and the literature behind it. Clinicians never have to guess why.</p>
+            </div>
+            <div class="principle">
+              <span class="num">/ 03</span>
+              <h3>Reachable, not just <em>impressive</em>.</h3>
+              <p>If a product needs a fibre line and a $40,000 device, we haven't done the work yet.</p>
+            </div>
+            <div class="principle">
+              <span class="num">/ 04</span>
+              <h3>Doctors in the <em>loop</em>.</h3>
+              <p>Practising clinicians shape what we ship. If they didn't help write it, it doesn't go in the box.</p>
+            </div>
+            <div class="principle">
+              <span class="num">/ 05</span>
+              <h3>Audit <em>everything</em>.</h3>
+              <p>Every read, every write, every model query is logged. Trust isn't a value, it's a log file.</p>
+            </div>
+            <div class="principle" style="background: var(--paper-2);">
+              <span class="num">/ ∞</span>
+              <h3>Stay <em>humble</em>.</h3>
+              <p>Medicine is older than us by millennia. We're a layer on top of it, not a replacement for it.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Timeline -->
+      <section class="block reveal">
+        <div>
+          <div class="block-label">The Path</div>
+          <h2>From <em>idea</em><br>to platform.</h2>
+        </div>
+        <div class="block-body">
+          <p>A short timeline of what's happened so far. We're early — and that's the point. The products are real, the company is young, and the work ahead is much larger than the work behind.</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-when">2024 / Q1</div>
+              <div class="timeline-what">
+                <h4>Sumora Health <em>incorporated</em></h4>
+                <p>Founded in Dubai with a mandate to build AI-native medical software for clinics and home care.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-when">2024 / Q2</div>
+              <div class="timeline-what">
+                <h4>Clinical advisory <em>formed</em></h4>
+                <p>Initial cohort of practising physicians and surgeons across multiple specialties begins reviewing product designs.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-when">2024 / Q4</div>
+              <div class="timeline-what">
+                <h4>Barnard <em>alpha</em></h4>
+                <p>First diagnostic co-pilot prototype tested against retrospective case sets in collaboration with clinical partners.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-when">2025</div>
+              <div class="timeline-what">
+                <h4>Four products in <em>parallel</em></h4>
+                <p>VRx, SERA, and Bisma move from concept into engineering. The unified record platform is designed and prototyped.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-when">2026</div>
+              <div class="timeline-what">
+                <h4>Pilot <em>partnerships</em></h4>
+                <p>First clinical pilots and pharma counterfeit-detection integrations under negotiation. Public site launches.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Leadership -->
+      <section class="block reveal">
+        <div>
+          <div class="block-label">Leadership</div>
+          <h2>The people who <em>steer</em> Sumora.</h2>
+        </div>
+        <div class="block-body">
+          <p>A three-strong leadership at the top of Sumora — Chairman, CEO, and COO — supported by a small founding team and a clinical advisory of practising physicians from nine countries. Every product decision passes through one of these three desks.</p>
+
+          <div class="leaders">
+
+            <!-- Leader 1 — Chairman -->
+            <article class="leader l1">
+              <div class="portrait">
+                <img src="rashed-al-ameri.jpg" alt="Rashed Al Ameri, Chairman of Sumora Health" loading="lazy">
+              </div>
+              <div class="meta-row">
+                <span class="number">/ 01</span>
+                <span class="country">Dubai · UAE</span>
+              </div>
+              <h3>Rashed <em>Al Ameri</em></h3>
+              <div class="role">Chairman</div>
+              <p>Chairs the board and sets the long-horizon direction of the company. Brings strategic oversight, capital relationships across the GCC, and the regional credibility that makes serious healthcare partnerships possible. His role keeps Sumora anchored to its founding ambition: that AI-led diagnostics belong to everyone, not just the well-resourced few.</p>
+              <div class="links">
+                <span class="li-placeholder" title="LinkedIn — coming soon" aria-label="LinkedIn (coming soon)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M9 17H6.5V10H9V17M7.7 8.7C6.9 8.7 6.3 8.1 6.3 7.3C6.3 6.5 6.9 5.9 7.7 5.9C8.5 5.9 9.1 6.5 9.1 7.3C9.1 8.1 8.5 8.7 7.7 8.7M18 17H15.5V13.5C15.5 12.6 14.8 11.9 13.9 11.9C13 11.9 12.3 12.6 12.3 13.5V17H9.8V10H12.3V11.1C12.7 10.4 13.6 9.9 14.5 9.9C16.4 9.9 18 11.5 18 13.4V17Z"/></svg></span>
+                <a href="mailto:hello@sumora.health" aria-label="Email">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8 L12 14 L21 8"/></svg>
+                </a>
+              </div>
+            </article>
+
+            <!-- Leader 2 — CEO -->
+            <article class="leader l2">
+              <div class="portrait">
+                <img src="syed-mujtaba.jpg?v=3" alt="Syed Mujtaba, Chief Executive Officer of Sumora Health" loading="lazy">
+              </div>
+              <div class="meta-row">
+                <span class="number">/ 02</span>
+                <span class="country">Dubai · UAE</span>
+              </div>
+              <h3>Syed <em>Mujtaba</em></h3>
+              <div class="role">Chief Executive Officer</div>
+              <p>Runs the company day to day — product direction, hiring, partnerships, and the operating cadence of a young healthcare business. Background spans technology and operations, with a working conviction that great healthcare AI is built by listening to clinicians first and engineers second. Keeps Sumora close to the work, and the work close to the patients it's for.</p>
+              <div class="links">
+                <span class="li-placeholder" title="LinkedIn — coming soon" aria-label="LinkedIn (coming soon)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M9 17H6.5V10H9V17M7.7 8.7C6.9 8.7 6.3 8.1 6.3 7.3C6.3 6.5 6.9 5.9 7.7 5.9C8.5 5.9 9.1 6.5 9.1 7.3C9.1 8.1 8.5 8.7 7.7 8.7M18 17H15.5V13.5C15.5 12.6 14.8 11.9 13.9 11.9C13 11.9 12.3 12.6 12.3 13.5V17H9.8V10H12.3V11.1C12.7 10.4 13.6 9.9 14.5 9.9C16.4 9.9 18 11.5 18 13.4V17Z"/></svg></span>
+                <a href="mailto:syed@sumora.health" aria-label="Email">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8 L12 14 L21 8"/></svg>
+                </a>
+              </div>
+            </article>
+
+            <!-- Leader 3 — COO -->
+            <article class="leader l3">
+              <div class="portrait">
+                <img src="nida-fatima.jpg?v=3" alt="Nida Fatima, Chief Operating Officer of Sumora Health" loading="lazy">
+              </div>
+              <div class="meta-row">
+                <span class="number">/ 03</span>
+                <span class="country">Islamabad · Pakistan</span>
+              </div>
+              <h3>Nida <em>Fatima</em></h3>
+              <div class="role">Chief Operating Officer</div>
+              <p>Heads the all-female engineering and design team in Pakistan that builds every Sumora product. As Chief Operating Officer, leads delivery, hiring, and the operating standards across the company — making sure what gets promised gets shipped, and that the culture inside the team matches the care the products are meant to carry.</p>
+              <div class="links">
+                <span class="li-placeholder" title="LinkedIn — coming soon" aria-label="LinkedIn (coming soon)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M9 17H6.5V10H9V17M7.7 8.7C6.9 8.7 6.3 8.1 6.3 7.3C6.3 6.5 6.9 5.9 7.7 5.9C8.5 5.9 9.1 6.5 9.1 7.3C9.1 8.1 8.5 8.7 7.7 8.7M18 17H15.5V13.5C15.5 12.6 14.8 11.9 13.9 11.9C13 11.9 12.3 12.6 12.3 13.5V17H9.8V10H12.3V11.1C12.7 10.4 13.6 9.9 14.5 9.9C16.4 9.9 18 11.5 18 13.4V17Z"/></svg></span>
+                <a href="mailto:nida@sumora.health" aria-label="Email">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8 L12 14 L21 8"/></svg>
+                </a>
+              </div>
+            </article>
+
+          </div>
+
+          <p style="margin-top:32px; color:var(--muted); font-size:14px;">Beyond the leadership, Sumora is built with a global clinical advisory of practising physicians from nine countries — UK, USA, UAE, Singapore, and beyond — who review every clinical-facing product before it ships.</p>
+        </div>
+      </section>
+
+      <!-- People -->
+      <section class="block reveal" style="border-bottom:1px solid var(--line);">
+        <div>
+          <div class="block-label">The People</div>
+          <h2>Built by a <em>small</em> team.<br>Reviewed by a <em>large</em> one.</h2>
+        </div>
+        <div class="block-body">
+          <p>A core team of engineers, clinicians, and designers in Dubai. A wider network of practising doctors across multiple countries who review every clinical-facing product before it ships.</p>
+          <p>If you're a physician, a builder, or both — we're hiring, and the door is genuinely open. <a href="careers.html" style="color:var(--ink); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px;">See open roles</a>.</p>
+
+          <div class="team-grid">
+            <div class="member">
+              <div class="avatar a1">SH</div>
+              <h4>Founding Team</h4>
+              <div class="role">Engineering · Clinical · Design</div>
+              <p>A small core building Sumora's products end-to-end, from model training to bedside UX.</p>
+            </div>
+            <div class="member">
+              <div class="avatar a2">CA</div>
+              <h4>Clinical Advisory</h4>
+              <div class="role">Multi-specialty · Multi-country</div>
+              <p>Practising physicians who review every product before it ships. They write what the rest of us code.</p>
+            </div>
+            <div class="member">
+              <div class="avatar a3">PA</div>
+              <h4>Pharma Partners</h4>
+              <div class="role">VRx Verification Network</div>
+              <p>Manufacturers contributing reference packaging data so VRx can verify medicines in real time.</p>
+            </div>
+            <div class="member">
+              <div class="avatar a4">YOU</div>
+              <h4>Your Role?</h4>
+              <div class="role">Open positions</div>
+              <p>Engineering, clinical, design, ops. We're a small team — every hire shifts the trajectory.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Strip -->
+      <div class="cta-strip reveal">
+        <h3>Want to build the next <em>chapter</em> with us — or just have a question?</h3>
+        <div class="actions">
+          <a href="careers.html" class="pill-light">See open roles</a>
+          <a href="contact.html" class="pill-ghost">Talk to Sumi →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="foot">
+      <div>© 2026 Sumora Health · Dubai, UAE</div>
+      <div>
+        <a href="index.html">Home</a>
+        <a href="technology.html">Technology</a>
+        <a href="signals.html">Signals</a>
+        <a href="careers.html">Careers</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+
+<!-- ===================== SITE FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="sf-brand">
+      <a href="index.html" class="brand"><span class="brand-mark" style="background:var(--lime);"></span>sumora<span class="reg">®</span></a>
+      <p>An AI healthcare company building intelligent systems for clinicians, patients, and the care that connects them.</p>
+      <div class="loc">DUBAI · UAE</div>
+    </div>
+    <div class="sf-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="index.html#solutions">Barnard</a></li>
+        <li><a href="index.html#solutions">VRx</a></li>
+        <li><a href="index.html#solutions">SERA</a></li>
+        <li><a href="index.html#solutions">Bisma</a></li>
+      </ul>
+    </div>
+    <div class="sf-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="careers.html">Careers</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="signals.html">Signals</a></li>
+      </ul>
+    </div>
+    <div class="sf-col">
+      <h4>Trust</h4>
+      <ul>
+        <li><a href="technology.html#evaluation">Evaluation</a></li>
+        <li><a href="technology.html#limits">Limitations</a></li>
+        <li><a href="technology.html#references">References</a></li>
+        <li><a href="technology.html">Technology</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="site-footer-bottom">
+    <div>© 2026 Sumora Health · All rights reserved</div>
+    <div>Designed in Dubai · Trained on consented data</div>
+  </div>
+</footer>
+<script>
+  // Mobile drawer toggle
+  (function(){
+    const btn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    const closeBtn = document.getElementById('drawerClose');
+    if(!btn || !drawer || !backdrop) return;
+
+    function setOpen(open){
+      drawer.classList.toggle('open', open);
+      backdrop.classList.toggle('open', open);
+      document.body.classList.toggle('drawer-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+      drawer.setAttribute('aria-hidden', String(!open));
+      backdrop.setAttribute('aria-hidden', String(!open));
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const isOpen = drawer.classList.contains('open');
+      setOpen(!isOpen);
+    });
+    if(closeBtn){ closeBtn.addEventListener('click', ()=> setOpen(false)); }
+    backdrop.addEventListener('click', ()=> setOpen(false));
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && drawer.classList.contains('open')) setOpen(false);
+    });
+    drawer.querySelectorAll('.drawer-nav a').forEach(a => {
+      a.addEventListener('click', ()=> setOpen(false));
+    });
+  })();
+</script>
+</body>
+</html>

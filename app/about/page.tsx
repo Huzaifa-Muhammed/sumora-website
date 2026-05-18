@@ -219,18 +219,21 @@ export default function AboutPage() {
                 <h2>The people who <em>steer</em> Sumora.</h2>
               </div>
               <div className="block-body">
-                <p>A small founding team carrying decades of medicine, engineering, and operating experience between them. They keep the company close to the work — every product decision passes through one of these three desks.</p>
+                <p>A three-strong leadership at the top of Sumora — Chairman, CEO, and COO — supported by a small founding team and a clinical advisory of practising physicians from nine countries. Every product decision passes through one of these three desks.</p>
 
                 <div className="leaders">
                   <article className="leader l1">
-                    <div className="portrait"></div>
+                    <div className="portrait">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/rashed-al-ameri.jpg" alt="Rashed Al Ameri, Chairman of Sumora Health" loading="lazy" />
+                    </div>
                     <div className="meta-row">
                       <span className="number">/ 01</span>
                       <span className="country">Dubai · UAE</span>
                     </div>
-                    <h3>[Founder <em>Name</em>]</h3>
-                    <div className="role">Founder &amp; Chief Executive</div>
-                    <p>Sets the direction of the company and keeps Sumora close to its founding brief — economical, accessible, clinician-led healthcare. Background spans technology and operating roles across multiple ventures.</p>
+                    <h3>Rashed <em>Al Ameri</em></h3>
+                    <div className="role">Chairman</div>
+                    <p>Chairs the board and sets the long-horizon direction of the company. Brings strategic oversight, capital relationships across the GCC, and the regional credibility that makes serious healthcare partnerships possible. His role keeps Sumora anchored to its founding ambition: that AI-led diagnostics belong to everyone, not just the well-resourced few.</p>
                     <div className="links">
                       <span className="li-placeholder" title="LinkedIn — coming soon" aria-label="LinkedIn (coming soon)"><LinkedInIcon /></span>
                       <a href="mailto:hello@sumora.health" aria-label="Email"><EmailIcon /></a>
@@ -238,37 +241,43 @@ export default function AboutPage() {
                   </article>
 
                   <article className="leader l2">
-                    <div className="portrait"></div>
+                    <div className="portrait">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/syed-mujtaba.jpg?v=3" alt="Syed Mujtaba, Chief Executive Officer of Sumora Health" loading="lazy" />
+                    </div>
                     <div className="meta-row">
                       <span className="number">/ 02</span>
                       <span className="country">Dubai · UAE</span>
                     </div>
-                    <h3>[Co-Founder <em>Name</em>]</h3>
-                    <div className="role">Chief Medical Officer</div>
-                    <p>Leads the clinical voice inside Sumora. A practising physician who shapes how Barnard reasons, how SERA escalates, and how Bisma triages — and who keeps the products honest about what they can and can&apos;t do.</p>
+                    <h3>Syed <em>Mujtaba</em></h3>
+                    <div className="role">Chief Executive Officer</div>
+                    <p>Runs the company day to day — product direction, hiring, partnerships, and the operating cadence of a young healthcare business. Background spans technology and operations, with a working conviction that great healthcare AI is built by listening to clinicians first and engineers second. Keeps Sumora close to the work, and the work close to the patients it&apos;s for.</p>
                     <div className="links">
                       <span className="li-placeholder" title="LinkedIn — coming soon" aria-label="LinkedIn (coming soon)"><LinkedInIcon /></span>
-                      <a href="mailto:clinicians@sumora.health" aria-label="Email"><EmailIcon /></a>
+                      <a href="mailto:syed@sumora.health" aria-label="Email"><EmailIcon /></a>
                     </div>
                   </article>
 
                   <article className="leader l3">
-                    <div className="portrait"></div>
+                    <div className="portrait">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/nida-fatima.jpg?v=3" alt="Nida Fatima, Chief Operating Officer of Sumora Health" loading="lazy" />
+                    </div>
                     <div className="meta-row">
                       <span className="number">/ 03</span>
-                      <span className="country">Dubai · UAE</span>
+                      <span className="country">Islamabad · Pakistan</span>
                     </div>
-                    <h3>[Co-Founder <em>Name</em>]</h3>
-                    <div className="role">Chief Technology Officer</div>
-                    <p>Owns the engineering foundation — from the patient-owned record platform to the AI models behind every product. Keeps the architecture simple enough that auditors, clinicians, and patients can all trust it.</p>
+                    <h3>Nida <em>Fatima</em></h3>
+                    <div className="role">Chief Operating Officer</div>
+                    <p>Heads the all-female engineering and design team in Pakistan that builds every Sumora product. As Chief Operating Officer, leads delivery, hiring, and the operating standards across the company — making sure what gets promised gets shipped, and that the culture inside the team matches the care the products are meant to carry.</p>
                     <div className="links">
                       <span className="li-placeholder" title="LinkedIn — coming soon" aria-label="LinkedIn (coming soon)"><LinkedInIcon /></span>
-                      <a href="mailto:hello@sumora.health" aria-label="Email"><EmailIcon /></a>
+                      <a href="mailto:nida@sumora.health" aria-label="Email"><EmailIcon /></a>
                     </div>
                   </article>
                 </div>
 
-                <p style={{ marginTop: "32px", color: "var(--muted)", fontSize: "14px" }}>Beyond the founding team, Sumora is built with a global advisory of practising physicians who review every clinical-facing product before it ships.</p>
+                <p style={{ marginTop: "32px", color: "var(--muted)", fontSize: "14px" }}>Beyond the leadership, Sumora is built with a global clinical advisory of practising physicians from nine countries — UK, USA, UAE, Singapore, and beyond — who review every clinical-facing product before it ships.</p>
               </div>
             </section>
 
