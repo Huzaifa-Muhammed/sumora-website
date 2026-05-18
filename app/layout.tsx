@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import DevtoolsDeterrent from "@/components/DevtoolsDeterrent";
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body>
         <DevtoolsDeterrent />
         {children}
+        <Analytics />
       </body>
     </html>
   );
