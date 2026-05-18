@@ -247,3 +247,18 @@ Two warnings still in the build log, both non-blocking:
 - Refactor Google Fonts to `next/font/google` to silence the page-custom-font warning and improve font-loading perf.
 - Add Vercel Analytics or similar if traffic insight is wanted.
 - The model id `claude-sonnet-4-6` in `app/api/sumi-chat/route.ts` — verify it works on first live test; swap if the API returns 404 model-not-found.
+
+---
+
+## Session 3 — leadership portraits
+
+Dropped in the real photos for two of the three leadership cards on `/about`.
+
+- Source images live in `_design/` alongside the original HTML: `nida_fatima.jpeg`, `syed_mujtaba.jpeg`.
+- Copied into `public/` with the names the page already expected:
+  - `public/nida-fatima.jpg` ← `_design/nida_fatima.jpeg`
+  - `public/syed-mujtaba.jpg` ← `_design/syed_mujtaba.jpeg`
+- The `<img>` tags in `app/about/page.tsx` (around line 224, the "The people who steer Sumora" section) already pointed at `/syed-mujtaba.jpg?v=3` and `/nida-fatima.jpg?v=3`, so no code change was needed — just the assets.
+- **Rashed Al Ameri's portrait (`/rashed-al-ameri.jpg`) is still missing on purpose** — user asked to skip the Chairman for now. The `<img>` tag is still in place; it'll 404 / show alt text until a photo is added.
+
+Filenames matter: the page references the kebab-case `.jpg` form, but the originals in `_design/` are underscore `.jpeg`. If you ever re-sync from the design folder, rename on copy.
