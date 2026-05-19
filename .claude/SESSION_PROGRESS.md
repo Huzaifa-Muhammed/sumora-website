@@ -262,3 +262,13 @@ Dropped in the real photos for two of the three leadership cards on `/about`.
 - **Rashed Al Ameri's portrait (`/rashed-al-ameri.jpg`) is still missing on purpose** — user asked to skip the Chairman for now. The `<img>` tag is still in place; it'll 404 / show alt text until a photo is added.
 
 Filenames matter: the page references the kebab-case `.jpg` form, but the originals in `_design/` are underscore `.jpeg`. If you ever re-sync from the design folder, rename on copy.
+
+---
+
+## Session 4 — Chairman portrait
+
+Filled in the third leadership card on `/about`.
+
+- Source: `_design/shiek.jpeg` (this is Rashed Al Ameri, the Chairman; the design-folder file was named after his title).
+- Copied to `public/rashed-al-ameri.jpg` — the filename the `<img>` tag at `app/about/page.tsx:228` was already pointing at, so no code change was needed.
+- All three leadership portraits (Chairman, CEO, COO) now resolve. The "Rashed Al Ameri portrait is missing on purpose" note from Session 3 is now stale — kept here for history but the card is complete.
